@@ -9,8 +9,7 @@ import java.util.List;
 
 public class ChessModel2 implements IChess {
     private static ChessModel2 instance ;
-    private IChess memory;
-    private  Piece[][] typeList = new Piece[8][8];
+    private  Piece[][] typeTable = new Piece[8][8];
 
     public static IChess getInstance() {
         if(ChessModel2.instance==null){
@@ -22,74 +21,13 @@ public class ChessModel2 implements IChess {
 
     @Override
     public void reinit() {
-        ChessModel2.instance=null;// probably not the solution
-
-
-        for (int i=0; i<8; i++){
-            for (int j=0; j<8; j++){
-                if (i==1){
-                    Piece piece = new Piece(ChessColor.CLR_BLACK, ChessType.TYP_PAWN);
-                    this.typeList[i][j] = piece;
-                }
-                else if (i==6){
-                    Piece piece = new Piece(ChessColor.CLR_WHITE, ChessType.TYP_PAWN);
-                    this.typeList[i][j] = piece;
-                }
-
-                else if (i==0){
-                    if (j==0 || j==7) {
-                        Piece piece = new Piece(ChessColor.CLR_BLACK, ChessType.TYP_ROOK);
-                        this.typeList[i][j] = piece;
-                    }
-                    else if (j==1 || j==6) {
-                        Piece piece = new Piece(ChessColor.CLR_BLACK, ChessType.TYP_KNIGHT);
-                        this.typeList[i][j] = piece;
-                    }
-                    else if (j==2 || j==5) {
-                        Piece piece = new Piece(ChessColor.CLR_BLACK, ChessType.TYP_BISHOP);
-                        this.typeList[i][j] = piece;
-                    }
-                    else if (j==3) {
-                        Piece piece = new Piece(ChessColor.CLR_BLACK, ChessType.TYP_QUEEN);
-                        this.typeList[i][j] = piece;
-                    }
-                    else {
-                        Piece piece = new Piece(ChessColor.CLR_BLACK, ChessType.TYP_KING);
-                        this.typeList[i][j] = piece;
-                    }
-                }
-
-                else if (i==7){
-                    if (j==0 || j==7) {
-                        Piece piece = new Piece(ChessColor.CLR_WHITE, ChessType.TYP_ROOK);
-                        this.typeList[i][j] = piece;
-                    }
-                    else if (j==1 || j==6) {
-                        Piece piece = new Piece(ChessColor.CLR_WHITE, ChessType.TYP_KNIGHT);
-                        this.typeList[i][j] = piece;
-                    }
-                    else if (j==2 || j==5) {
-                        Piece piece = new Piece(ChessColor.CLR_WHITE, ChessType.TYP_BISHOP);
-                        this.typeList[i][j] = piece;
-                    }
-                    else if (j==3) {
-                        Piece piece = new Piece(ChessColor.CLR_WHITE, ChessType.TYP_QUEEN);
-                        this.typeList[i][j] = piece;
-                    }
-                    else {
-                        Piece piece = new Piece(ChessColor.CLR_WHITE, ChessType.TYP_KING);
-                        this.typeList[i][j] = piece;
-                    }
-                }
-            }
-        }
-        System.out.println(typeList);
+        typeTable = new ChessBoard().create();
     }
 
 
     @Override
     public ChessType getPieceType(ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        Piece piece = this.typeList[p.y][p.x];
+        Piece piece = this.typeTable[p.y][p.x];
         if (piece==null){
             throw new EmptyCellException();
         }
@@ -101,7 +39,7 @@ public class ChessModel2 implements IChess {
 
     @Override
     public ChessColor getPieceColor(ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        Piece piece = this.typeList[p.y][p.x];
+        Piece piece = this.typeTable[p.y][p.x];
         if (piece==null){
             throw new EmptyCellException();
         }
@@ -114,9 +52,9 @@ public class ChessModel2 implements IChess {
     @Override
     public int getNbRemainingPieces(ChessColor color) {
         int remaining = 0;
-        for (int i=0; i<typeList.length; i++) {
-            for (int j=0; j<typeList.length; j++) {
-                Piece piece = typeList[i][j];
+        for (int i = 0; i< typeTable.length; i++) {
+            for (int j = 0; j< typeTable.length; j++) {
+                Piece piece = typeTable[i][j];
                 if (piece != null) {
                     if (piece.getColor() == color) {
                         remaining++;
