@@ -220,7 +220,7 @@ class ChessGameController extends BasicGameState
     private ChessPosition       selectPos;
     
     /**
-     * List of possible cells for a selected piece, depending on the selecte dpiece moves, its position, and the king status.
+     * List of possible cells for a selected piece, depending on the selected piece moves, its position, and the king status.
      */
     private List<ChessPosition> selectChoice;
     
@@ -230,7 +230,7 @@ class ChessGameController extends BasicGameState
     private List<ChessPosition> possiblePos;
     
     /**
-     * Current side color. Alterning betwen white and black. First to play is white.
+     * Current side color. Alternating between white and black. First to play is white.
      */
     private ChessColor          currentColor;
     
