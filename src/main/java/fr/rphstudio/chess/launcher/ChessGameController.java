@@ -3,7 +3,7 @@
 //--------------------------------------------------------------------
 package fr.rphstudio.chess.launcher;
 
-import fr.rphstudio.chess.game.ChessModel;
+import fr.rphstudio.chess.game.ChessModel2;
 import fr.rphstudio.chess.interf.ChessException;
 import fr.rphstudio.chess.interf.IChess;
 import fr.rphstudio.chess.interf.IChess.ChessColor;
@@ -812,7 +812,7 @@ class ChessGameController extends BasicGameState
          * /!\ to have only one possible instance of game.                          /!\
          * *****************************************************************************/
                                                  /* */
-        this.board = ChessModel.getInstance();   /* */
+        this.board = ChessModel2.getInstance();   /* */
                                                  /* */
         // *****************************************************************************                                
         // *****************************************************************************                                
@@ -821,7 +821,7 @@ class ChessGameController extends BasicGameState
         // Check the mono instance of IChess implementation
         for(int i=0;i<100;i++)
         {
-            IChess ref = ChessModel.getInstance();
+            IChess ref = ChessModel2.getInstance();
             if(ref != this.board)
             {
                 throw new Error("Bad singleton implementation !");
