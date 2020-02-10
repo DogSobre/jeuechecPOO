@@ -25,12 +25,12 @@ public class ChessModel2 implements IChess {
 
     @Override
     public ChessType getPieceType(ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        return null;
+        return ChessType.TYP_PAWN;
     }
 
     @Override
     public ChessColor getPieceColor(ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        return null;
+        return ChessColor.CLR_BLACK;
     }
 
     @Override
@@ -40,7 +40,8 @@ public class ChessModel2 implements IChess {
 
     @Override
     public List<ChessPosition> getPieceMoves(ChessPosition p) {
-        return null;
+        List<ChessPosition> list = new ArrayList<>();
+        return list;
     }
 
     @Override
@@ -51,12 +52,15 @@ public class ChessModel2 implements IChess {
     @Override
     public ChessKingState getKingState(ChessColor color) {
 
-        return null;
+        return ChessKingState.KING_SAFE;
     }
 
     @Override
     public List<ChessType> getRemovedPieces(ChessColor color) {
         List<ChessType> list = new ArrayList<>();
+        list.add(ChessType.TYP_BISHOP);
+        list.add(ChessType.TYP_PAWN);
+
         return list;
     }
 
