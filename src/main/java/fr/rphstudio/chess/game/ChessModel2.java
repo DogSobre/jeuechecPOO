@@ -29,7 +29,7 @@ public class ChessModel2 implements IChess {
 
     @Override
     public ChessType getPieceType(ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        if (p.x>typeTable.length || p.y>typeTable.length || p.x<0 || p.y<0){
+        if (p.x>=typeTable.length || p.y>=typeTable.length || p.x<0 || p.y<0){
             throw new OutOfBoardException();
         }
 
@@ -45,7 +45,7 @@ public class ChessModel2 implements IChess {
 
     @Override
     public ChessColor getPieceColor(ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        if (p.x>typeTable.length || p.y>typeTable.length || p.x<0 || p.y<0){
+        if (p.x>=typeTable.length || p.y>=typeTable.length || p.x<0 || p.y<0){
             throw new OutOfBoardException();
         }
 
@@ -67,14 +67,18 @@ public class ChessModel2 implements IChess {
 
     @Override
     public List<ChessPosition> getPieceMoves(ChessPosition p) {
-        List<ChessPosition> list = new ArrayList<>();
-        return list;
+        try {
+            return board.getPieceMoves(p);
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
 
     @Override
     public void movePiece(ChessPosition p0, ChessPosition p1) {
-
+        System.out.println("init: " + p0.y + "." + p0.x + ".  final: " + p1.y + "." + p1.x + "##############################################################################");
+        board.movePiece(p0, p1);
     }
 
 

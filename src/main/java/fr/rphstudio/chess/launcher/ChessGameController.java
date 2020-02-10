@@ -909,25 +909,22 @@ class ChessGameController extends BasicGameState
             {
                 locPos.x = x;
                 locPos.y = y;
-                if (locPos.y<=1 || locPos.y>=6){
-                    try
-                    {
-                        ChessType type   = this.board.getPieceType(locPos);
-                        ChessColor color = this.board.getPieceColor(locPos);
+                try
+                {
+                    ChessType type   = this.board.getPieceType(locPos);
+                    ChessColor color = this.board.getPieceColor(locPos);
 
-                        Vector2f realPos  = new Vector2f((x+0.5f)*this.offCellX, (y+0.5f)*this.offCellY);
-                        Vector2f persPos  = this.getPerspectivePosition(realPos);
-                        Image curPieceGfx = this.pieceGfx.getSprite(type.ordinal(), color.ordinal()).getScaledCopy(0.5f);
-                        float    dx       = curPieceGfx.getWidth()/2;
-                        float    dy       = curPieceGfx.getHeight();
-                        g.drawImage(curPieceGfx, this.refX+this.offX+persPos.x-dx, this.refY+this.offY+this.offBoardY+persPos.y-dy);
-                    }
-                    catch(ChessException cex)
-                    {
-
-                    }
+                    Vector2f realPos  = new Vector2f((x+0.5f)*this.offCellX, (y+0.5f)*this.offCellY);
+                    Vector2f persPos  = this.getPerspectivePosition(realPos);
+                    Image curPieceGfx = this.pieceGfx.getSprite(type.ordinal(), color.ordinal()).getScaledCopy(0.5f);
+                    float    dx       = curPieceGfx.getWidth()/2;
+                    float    dy       = curPieceGfx.getHeight();
+                    g.drawImage(curPieceGfx, this.refX+this.offX+persPos.x-dx, this.refY+this.offY+this.offBoardY+persPos.y-dy);
                 }
+                catch(ChessException cex)
+                {
 
+                }
             }
         }
         
