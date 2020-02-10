@@ -77,7 +77,6 @@ public class ChessModel2 implements IChess {
 
     @Override
     public void movePiece(ChessPosition p0, ChessPosition p1) {
-        System.out.println("init: " + p0.y + "." + p0.x + ".  final: " + p1.y + "." + p1.x + "##############################################################################");
         board.movePiece(p0, p1);
     }
 

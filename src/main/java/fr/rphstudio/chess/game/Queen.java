@@ -11,7 +11,19 @@ public class Queen implements IMove {
     @Override
     public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, IChess.ChessColor color) {
         List<IChess.ChessPosition> list = new ArrayList<>();
-        list.add(new IChess.ChessPosition(p.x, p.y+1)) ;
+        for (int i=1; i<8; i++){
+                list.add(new IChess.ChessPosition(p.x, p.y + i));
+                list.add(new IChess.ChessPosition(p.x, p.y - i));
+                list.add(new IChess.ChessPosition(p.x + i, p.y));
+                list.add(new IChess.ChessPosition(p.x- i, p.y));
+        }
+
+        for (int i=1; i<8; i++){
+            list.add(new IChess.ChessPosition(p.x+i, p.y+i)) ;
+            list.add(new IChess.ChessPosition(p.x-i, p.y+i)) ;
+            list.add(new IChess.ChessPosition(p.x+i, p.y-i)) ;
+            list.add(new IChess.ChessPosition(p.x-i, p.y-i)) ;
+        }
         return list;
     }
 }

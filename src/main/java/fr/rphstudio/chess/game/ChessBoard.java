@@ -68,6 +68,8 @@ public class ChessBoard {
 
     public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p) {
         List<IChess.ChessPosition> list = typeTable[p.y][p.x].getMove().getPieceMoves(p, typeTable[p.y][p.x].getColor());
+        List<IChess.ChessPosition> listFinal = new ArrayList<>();
+
         // remove wrong move
         //System.out.println("try:   --------------- " +typeTable[p.y][p.x].getType() + " " + typeTable[p.y][p.x].getColor());
         /*for (int i=0; i<list.size(); i++){
@@ -77,7 +79,16 @@ public class ChessBoard {
             }
             System.out.println(p.y +"-" + p.x  + ".  " + i + ":  " + list.get(i).y + "-" + list.get(i).x);
         }*/
-        return list;
+
+        for (int i=0; i<list.size(); i++){
+            if (list.get(i).y>=0 && list.get(i).y<8 && list.get(i).x>=0 && list.get(i).x<8){
+                listFinal.add(list.get(i));
+            }
+        }
+        //list.removeIf(el -> el.y < 0 || el.y > 7 || el.x < 0 || el.x > 7);
+
+        return listFinal;
+        //return list;
     }
 
 

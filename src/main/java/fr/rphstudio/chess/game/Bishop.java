@@ -11,8 +11,7 @@ public class Bishop implements IMove {
     @Override
     public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, IChess.ChessColor color) {
         List<IChess.ChessPosition> list = new ArrayList<>();
-        list.add(new IChess.ChessPosition(p.x, p.y+1)) ;
-        for (int i=0; i<8; i++){
+        for (int i=1; i<8; i++){
             list.add(new IChess.ChessPosition(p.x+i, p.y+i)) ;
             list.add(new IChess.ChessPosition(p.x-i, p.y+i)) ;
             list.add(new IChess.ChessPosition(p.x+i, p.y-i)) ;
