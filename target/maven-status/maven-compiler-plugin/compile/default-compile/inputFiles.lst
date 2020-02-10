@@ -3,6 +3,7 @@
 /Users/Gwenael/Documents/java POO Echec/jeu/jeuechecPOO/src/main/java/fr/rphstudio/chess/game/ChessModel2.java
 /Users/Gwenael/Documents/java POO Echec/jeu/jeuechecPOO/src/main/java/fr/rphstudio/chess/interf/EmptyCellException.java
 /Users/Gwenael/Documents/java POO Echec/jeu/jeuechecPOO/src/main/java/fr/rphstudio/chess/launcher/ChessGameController.java
+/Users/Gwenael/Documents/java POO Echec/jeu/jeuechecPOO/src/main/java/fr/rphstudio/chess/game/Piece.java
 /Users/Gwenael/Documents/java POO Echec/jeu/jeuechecPOO/src/main/java/fr/rphstudio/chess/interf/ChessException.java
 /Users/Gwenael/Documents/java POO Echec/jeu/jeuechecPOO/src/main/java/fr/rphstudio/chess/interf/OutOfBoardException.java
 /Users/Gwenael/Documents/java POO Echec/jeu/jeuechecPOO/src/main/java/fr/rphstudio/chess/interf/IChess.java

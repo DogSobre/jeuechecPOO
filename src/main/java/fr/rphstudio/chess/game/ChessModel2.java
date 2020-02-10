@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ChessModel2 implements IChess {
     private static ChessModel2 instance ;
-
+    private IChess memory;
 
     public static IChess getInstance() {
         if(ChessModel2.instance==null){
@@ -25,11 +25,39 @@ public class ChessModel2 implements IChess {
 
     @Override
     public ChessType getPieceType(ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        return ChessType.TYP_PAWN;
+        if (p.y==1 || p.y==6){
+            return ChessType.TYP_PAWN;
+        }
+        else {
+            if (p.y==0 || p.y==7){
+                if (p.x==0 || p.x==7) {
+                    return ChessType.TYP_ROOK;
+                }
+                else if (p.x==1 || p.x==6) {
+                    return ChessType.TYP_KNIGHT;
+                }
+                else if (p.x==2 || p.x==5) {
+                    return ChessType.TYP_BISHOP;
+                }
+                else if (p.x==3) {
+                    return ChessType.TYP_QUEEN;
+                }
+                else if (p.x==4){
+                    return ChessType.TYP_KING;
+                }
+            }
+        }
+        return ChessType.TYP_KING;
     }
 
     @Override
     public ChessColor getPieceColor(ChessPosition p) throws EmptyCellException, OutOfBoardException {
+        /*if (p.x<=1){
+            return ChessColor.CLR_BLACK;
+        }
+        else {
+            return ChessColor.CLR_WHITE;
+        }*/
         return ChessColor.CLR_BLACK;
     }
 
@@ -58,8 +86,7 @@ public class ChessModel2 implements IChess {
     @Override
     public List<ChessType> getRemovedPieces(ChessColor color) {
         List<ChessType> list = new ArrayList<>();
-        list.add(ChessType.TYP_BISHOP);
-        list.add(ChessType.TYP_PAWN);
+
 
         return list;
     }
