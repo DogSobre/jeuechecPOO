@@ -10,7 +10,7 @@ import java.util.List;
 public class ChessModel2 implements IChess {
     private static ChessModel2 instance ;
     private IChess memory;
-
+    private  List<Piece> typeList;
 
     public static IChess getInstance() {
         if(ChessModel2.instance==null){
@@ -22,13 +22,76 @@ public class ChessModel2 implements IChess {
 
     @Override
     public void reinit() {
+        ChessModel2.instance=null;// probably not the solution
 
+        this.typeList=new ArrayList<>();
+
+        for (int i=0; i<8; i++){
+            for (int j=0; j<8; j++){
+                if (i==1){
+                    Piece piece = new Piece(ChessColor.CLR_BLACK, ChessType.TYP_PAWN);
+                    this.typeList.add(piece);
+                }
+                else if (i==6){
+                    Piece piece = new Piece(ChessColor.CLR_WHITE, ChessType.TYP_PAWN);
+                    this.typeList.add(piece);
+                }
+
+                else if (i==0){
+                    if (j==0 || j==7) {
+                        Piece piece = new Piece(ChessColor.CLR_BLACK, ChessType.TYP_ROOK);
+                        this.typeList.add(piece);
+                    }
+                    else if (j==1 || j==6) {
+                        Piece piece = new Piece(ChessColor.CLR_BLACK, ChessType.TYP_KNIGHT);
+                        this.typeList.add(piece);
+                    }
+                    else if (j==2 || j==5) {
+                        Piece piece = new Piece(ChessColor.CLR_BLACK, ChessType.TYP_BISHOP);
+                        this.typeList.add(piece);
+                    }
+                    else if (j==3) {
+                        Piece piece = new Piece(ChessColor.CLR_BLACK, ChessType.TYP_QUEEN);
+                        this.typeList.add(piece);
+                    }
+                    else {
+                        Piece piece = new Piece(ChessColor.CLR_BLACK, ChessType.TYP_KING);
+                        this.typeList.add(piece);
+                    }
+                }
+
+                else if (i==7){
+                    if (j==0 || j==7) {
+                        Piece piece = new Piece(ChessColor.CLR_WHITE, ChessType.TYP_ROOK);
+                        this.typeList.add(piece);
+                    }
+                    else if (j==1 || j==6) {
+                        Piece piece = new Piece(ChessColor.CLR_WHITE, ChessType.TYP_KNIGHT);
+                        this.typeList.add(piece);
+                    }
+                    else if (j==2 || j==5) {
+                        Piece piece = new Piece(ChessColor.CLR_WHITE, ChessType.TYP_BISHOP);
+                        this.typeList.add(piece);
+                    }
+                    else if (j==3) {
+                        Piece piece = new Piece(ChessColor.CLR_WHITE, ChessType.TYP_QUEEN);
+                        this.typeList.add(piece);
+                    }
+                    else {
+                        Piece piece = new Piece(ChessColor.CLR_WHITE, ChessType.TYP_KING);
+                        this.typeList.add(piece);
+                    }
+                }
+
+            }
+        }
+        System.out.println(typeList);
     }
 
 
     @Override
     public ChessType getPieceType(ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        if (p.y==1 || p.y==6){
+        /*if (p.y==1 || p.y==6){
             return ChessType.TYP_PAWN;
         }
         else {
@@ -49,7 +112,14 @@ public class ChessModel2 implements IChess {
                     return ChessType.TYP_KING;
                 }
             }
+        }*/
+        if (p.y<=1){
+            return typeList.get(p.y*8+p.x).getType();
         }
+        if (p.y>=6){
+            return typeList.get((p.y-4)*8+p.x).getType();
+        }
+
         return null;
     }
 
@@ -67,7 +137,13 @@ public class ChessModel2 implements IChess {
 
     @Override
     public int getNbRemainingPieces(ChessColor color) {
-        return 0;
+        int remaining = 0;
+        for (int i=0; i<typeList.size(); i++) {
+            if (typeList.get(i).getColor()==color){
+                remaining++;
+            }
+        }
+        return remaining;
     }
 
 
