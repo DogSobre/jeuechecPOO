@@ -9,7 +9,9 @@ import java.util.List;
 
 public class ChessModel2 implements IChess {
     private static ChessModel2 instance ;
-    private  Piece[][] typeTable = new Piece[8][8];
+    private  Piece[][] typeTable;
+    private ChessBoard board = new ChessBoard();
+
 
     public static IChess getInstance() {
         if(ChessModel2.instance==null){
@@ -21,12 +23,16 @@ public class ChessModel2 implements IChess {
 
     @Override
     public void reinit() {
-        typeTable = new ChessBoard().create();
+        typeTable = board.createTable();
     }
 
 
     @Override
     public ChessType getPieceType(ChessPosition p) throws EmptyCellException, OutOfBoardException {
+        if (p.x>typeTable.length || p.y>typeTable.length || p.x<0 || p.y<0){
+            throw new OutOfBoardException();
+        }
+
         Piece piece = this.typeTable[p.y][p.x];
         if (piece==null){
             throw new EmptyCellException();
@@ -39,6 +45,10 @@ public class ChessModel2 implements IChess {
 
     @Override
     public ChessColor getPieceColor(ChessPosition p) throws EmptyCellException, OutOfBoardException {
+        if (p.x>typeTable.length || p.y>typeTable.length || p.x<0 || p.y<0){
+            throw new OutOfBoardException();
+        }
+
         Piece piece = this.typeTable[p.y][p.x];
         if (piece==null){
             throw new EmptyCellException();
@@ -51,18 +61,7 @@ public class ChessModel2 implements IChess {
 
     @Override
     public int getNbRemainingPieces(ChessColor color) {
-        int remaining = 0;
-        for (int i = 0; i< typeTable.length; i++) {
-            for (int j = 0; j< typeTable.length; j++) {
-                Piece piece = typeTable[i][j];
-                if (piece != null) {
-                    if (piece.getColor() == color) {
-                        remaining++;
-                    }
-                }
-            }
-        }
-        return remaining;
+        return board.isRemaining(color);
     }
 
 
