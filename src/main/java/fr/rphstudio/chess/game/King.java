@@ -19,6 +19,38 @@ public class King implements IMove{
             }
         }
 
+
+
+        //great roque
+        try{
+            if (!board.getPiece(p.y, p.x).isAlreadyMove()  && !board.getPiece(p.y, p.x-4).isAlreadyMove()){
+            /*if (IChess.ChessKingState.KING_SAFE==){
+
+            }*/
+                if (board.getPiece(p.y, p.x-1)==null && board.getPiece(p.y, p.x-2)==null && board.getPiece(p.y, p.x-3)==null){
+                    list.add(new IChess.ChessPosition(p.x-2, p.y)) ;
+                }
+
+            }
+        }catch (Exception e ){
+
+        }
+
+        try{
+            if (!board.getPiece(p.y, p.x).isAlreadyMove()  && !board.getPiece(p.y, p.x+3).isAlreadyMove()){
+            /*if (IChess.ChessKingState.KING_SAFE==){
+
+            }*/
+                if (board.getPiece(p.y, p.x+1)==null && board.getPiece(p.y, p.x+2)==null){
+                    list.add(new IChess.ChessPosition(p.x+2, p.y)) ;
+                }
+
+            }
+        }catch (Exception e ){
+
+        }
+
+
         return list;
     }
 

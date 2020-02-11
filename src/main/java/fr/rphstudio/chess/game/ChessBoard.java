@@ -149,7 +149,6 @@ public class ChessBoard {
                 }
                 else if (typeTable[list.get(i).y][list.get(i).x].getColor()!=typeTable[p.y][p.x].getColor()) {
                     listFinal.add(list.get(i));
-
                 }
             }
         }
@@ -165,7 +164,7 @@ public class ChessBoard {
         typeTable[newP.y][newP.x].setAlreadyMove(true);
 
 
-
+        roque(oldP, newP);
         promote(newP.y, newP.x);
     }
 
@@ -176,6 +175,22 @@ public class ChessBoard {
         }
         if (typeTable[y][x].getType() == IChess.ChessType.TYP_PAWN && typeTable[y][x].getColor() == IChess.ChessColor.CLR_BLACK && y ==7){
             typeTable[y][x] =  new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_QUEEN, new Queen());
+        }
+    }
+
+
+
+    private void roque(IChess.ChessPosition oldP, IChess.ChessPosition newP){
+        if (typeTable[newP.y][newP.x].getType() == IChess.ChessType.TYP_KING){
+
+            if (newP.x-oldP.x <0){
+                typeTable[newP.y][newP.x+1]  = typeTable[newP.y][0];
+                typeTable[newP.y][0]=null;
+            }
+            else {
+                typeTable[newP.y][newP.x-1]  = typeTable[newP.y][7];
+                typeTable[newP.y][7]=null;
+            }
         }
     }
 
