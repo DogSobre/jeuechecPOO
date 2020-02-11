@@ -4,6 +4,7 @@ import fr.rphstudio.chess.interf.EmptyCellException;
 import fr.rphstudio.chess.interf.IChess;
 import fr.rphstudio.chess.interf.OutOfBoardException;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -78,6 +79,36 @@ public class ChessBoard {
         else {
             return piece.getColor();
         }
+    }
+
+
+    public IChess.ChessKingState getKingState(IChess.ChessColor color) {
+        List<IChess.ChessPosition> finalList= new ArrayList<>();
+        IChess.ChessPosition p = new IChess.ChessPosition(-10, -10);
+        for (int i = 0; i<8; i++){
+            for (int j = 0; j<8; j++){
+                try {
+                    if (getPiece(i, j).getColor() != color) {
+                        List<IChess.ChessPosition> list = getPieceMoves(new IChess.ChessPosition(j, i));
+
+                        finalList.addAll(list);
+                    }
+
+                    if (getPiece(i, j).getColor() == color && getPiece(i, j).getType() == IChess.ChessType.TYP_KING) {
+                        p = new IChess.ChessPosition(j, i);
+                    }
+                }catch (Exception e ){
+                }
+            }
+        }
+
+
+        for (int a = 0; a<finalList.size(); a++){
+            if(finalList.get(a).equals(p)){
+                return IChess.ChessKingState.KING_THREATEN;
+            }
+        }
+        return IChess.ChessKingState.KING_SAFE;
     }
 
 
