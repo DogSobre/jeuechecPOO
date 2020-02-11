@@ -157,6 +157,7 @@ public class ChessBoard {
 
 
     public void movePiece(IChess.ChessPosition oldP, IChess.ChessPosition newP){
+        boolean isMoved = typeTable[oldP.y][oldP.x].isAlreadyMove();
         typeTable[newP.y][newP.x] = typeTable[oldP.y][oldP.x];
         typeTable[oldP.y][oldP.x] = null;
         showTable();
@@ -164,7 +165,7 @@ public class ChessBoard {
         typeTable[newP.y][newP.x].setAlreadyMove(true);
 
 
-        roque(oldP, newP);
+        roque(oldP, newP, isMoved);
         promote(newP.y, newP.x);
     }
 
@@ -180,14 +181,14 @@ public class ChessBoard {
 
 
 
-    private void roque(IChess.ChessPosition oldP, IChess.ChessPosition newP){
-        if (typeTable[newP.y][newP.x].getType() == IChess.ChessType.TYP_KING){
+    private void roque(IChess.ChessPosition oldP, IChess.ChessPosition newP, boolean hasMoved){
+        if (typeTable[newP.y][newP.x].getType() == IChess.ChessType.TYP_KING && !hasMoved){
 
             if (newP.x-oldP.x <0){
                 typeTable[newP.y][newP.x+1]  = typeTable[newP.y][0];
                 typeTable[newP.y][0]=null;
             }
-            else {
+            else if(newP.x-oldP.x >0){
                 typeTable[newP.y][newP.x-1]  = typeTable[newP.y][7];
                 typeTable[newP.y][7]=null;
             }
