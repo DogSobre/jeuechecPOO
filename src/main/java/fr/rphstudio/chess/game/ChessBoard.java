@@ -1,8 +1,11 @@
 package fr.rphstudio.chess.game;
 
+import fr.rphstudio.chess.interf.EmptyCellException;
 import fr.rphstudio.chess.interf.IChess;
+import fr.rphstudio.chess.interf.OutOfBoardException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ChessBoard {
@@ -12,6 +15,67 @@ public class ChessBoard {
     public ChessBoard(){
         createTable();
     }
+
+
+    public Piece getPiece(int y, int x){
+        Piece piece = this.typeTable[y][x];
+        return piece;
+    }
+
+
+    public IChess.ChessType getPieceType(IChess.ChessPosition p) throws EmptyCellException, OutOfBoardException {
+        if (p.x>=typeTable.length || p.y>=typeTable.length || p.x<0 || p.y<0){
+            throw new OutOfBoardException();
+        }
+
+        Piece piece = this.typeTable[p.y][p.x];
+        if (piece==null){
+            throw new EmptyCellException();
+        }
+        else {
+            return piece.getType();
+        }
+    }
+
+    public IChess.ChessType getPieceType(int y, int x) throws EmptyCellException, OutOfBoardException {
+
+        Piece piece = this.typeTable[y][x];
+        if (piece==null){
+            throw new EmptyCellException();
+        }
+        else {
+            return piece.getType();
+        }
+    }
+
+
+
+    public IChess.ChessColor getPieceColor(IChess.ChessPosition p) throws EmptyCellException, OutOfBoardException {
+        if (p.x>=typeTable.length || p.y>=typeTable.length || p.x<0 || p.y<0){
+            throw new OutOfBoardException();
+        }
+
+        Piece piece = this.typeTable[p.y][p.x];
+        if (piece==null){
+            throw new EmptyCellException();
+        }
+        else {
+            return piece.getColor();
+        }
+    }
+
+
+    public IChess.ChessColor getPieceColor(int y, int x) throws EmptyCellException, OutOfBoardException {
+
+        Piece piece = this.typeTable[y][x];
+        if (piece==null){
+            throw new EmptyCellException();
+        }
+        else {
+            return piece.getColor();
+        }
+    }
+
 
 
     public Piece[][] createTable(){
@@ -67,33 +131,49 @@ public class ChessBoard {
 
 
     public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p) {
-        List<IChess.ChessPosition> list = typeTable[p.y][p.x].getMove().getPieceMoves(p, typeTable[p.y][p.x].getColor());
+        List<IChess.ChessPosition> list = typeTable[p.y][p.x].getMove().getPieceMoves(p, this);
         List<IChess.ChessPosition> listFinal = new ArrayList<>();
 
-        // remove wrong move
-        //System.out.println("try:   --------------- " +typeTable[p.y][p.x].getType() + " " + typeTable[p.y][p.x].getColor());
-        /*for (int i=0; i<list.size(); i++){
-            if (list.get(i).y<0 || list.get(i).y>7 || list.get(i).x<0 || list.get(i).x>7){
-                list.remove(i);
-                i--;
-            }
-            System.out.println(p.y +"-" + p.x  + ".  " + i + ":  " + list.get(i).y + "-" + list.get(i).x);
-        }*/
+        for (int i=0; i<list.size(); i++) {
+            if (list.get(i).y >= 0 && list.get(i).y < 8 && list.get(i).x >= 0 && list.get(i).x < 8) {
 
-        for (int i=0; i<list.size(); i++){
-            if (list.get(i).y>=0 && list.get(i).y<8 && list.get(i).x>=0 && list.get(i).x<8){
                 listFinal.add(list.get(i));
+
+                /*
+                if (typeTable[list.get(i).y][list.get(i).x]==null){
+                    listFinal.add(list.get(i));
+                }
+                else if (typeTable[list.get(i).y][list.get(i).x].getColor()!=typeTable[p.y][p.x].getColor()) {
+                            listFinal.add(list.get(i));
+                    }
+                }*/
             }
         }
-        //list.removeIf(el -> el.y < 0 || el.y > 7 || el.x < 0 || el.x > 7);
-
+        //if (typeTable[list.get(i).y][list.get(i).x].getColor()==typeTable[p.y][p.x].getColor()) { }
         return listFinal;
-        //return list;
     }
 
 
     public void movePiece(IChess.ChessPosition oldP, IChess.ChessPosition newP){
         typeTable[newP.y][newP.x] = typeTable[oldP.y][oldP.x];
         typeTable[oldP.y][oldP.x] = null;
+        showTable();
+    }
+
+
+    public void showTable(){
+        String result = "";
+        for (int i=0; i<8; i++){
+            for (int j=0; j<8; j++){
+                if (typeTable[i][j]!=null){
+                    result+=typeTable[i][j].getType() + " . ";
+                }
+                else {
+                    result+= "-------- . ";
+                }
+            }
+            result+= "\n";
+        }
+        System.out.println(result);
     }
 }

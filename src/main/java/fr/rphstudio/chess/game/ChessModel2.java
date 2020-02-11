@@ -29,7 +29,8 @@ public class ChessModel2 implements IChess {
 
     @Override
     public ChessType getPieceType(ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        if (p.x>=typeTable.length || p.y>=typeTable.length || p.x<0 || p.y<0){
+        return  board.getPieceType(p);
+        /*if (p.x>=typeTable.length || p.y>=typeTable.length || p.x<0 || p.y<0){
             throw new OutOfBoardException();
         }
 
@@ -39,13 +40,13 @@ public class ChessModel2 implements IChess {
         }
         else {
             return piece.getType();
-        }
+        }*/
     }
 
 
     @Override
     public ChessColor getPieceColor(ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        if (p.x>=typeTable.length || p.y>=typeTable.length || p.x<0 || p.y<0){
+        /*if (p.x>=typeTable.length || p.y>=typeTable.length || p.x<0 || p.y<0){
             throw new OutOfBoardException();
         }
 
@@ -55,7 +56,8 @@ public class ChessModel2 implements IChess {
         }
         else {
             return piece.getColor();
-        }
+        }*/
+        return board.getPieceColor(p);
     }
 
 
@@ -83,7 +85,6 @@ public class ChessModel2 implements IChess {
 
     @Override
     public ChessKingState getKingState(ChessColor color) {
-
         return ChessKingState.KING_SAFE;
     }
 
@@ -91,8 +92,6 @@ public class ChessModel2 implements IChess {
     @Override
     public List<ChessType> getRemovedPieces(ChessColor color) {
         List<ChessType> list = new ArrayList<>();
-
-
         return list;
     }
 

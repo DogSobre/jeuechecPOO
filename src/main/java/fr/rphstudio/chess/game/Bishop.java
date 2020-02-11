@@ -8,8 +8,9 @@ import java.util.List;
 public class Bishop implements IMove {
 
 
+
     @Override
-    public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, IChess.ChessColor color) {
+    public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, ChessBoard board) {
         List<IChess.ChessPosition> list = new ArrayList<>();
         for (int i=1; i<8; i++){
             list.add(new IChess.ChessPosition(p.x+i, p.y+i)) ;
@@ -27,6 +28,5 @@ public class Bishop implements IMove {
             }
         }*/
 
-        return list;
-    }
+        return list;    }
 }

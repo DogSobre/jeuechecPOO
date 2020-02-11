@@ -8,8 +8,9 @@ import java.util.List;
 public class King implements IMove{
 
 
+
     @Override
-    public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, IChess.ChessColor color) {
+    public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, ChessBoard board) {
         List<IChess.ChessPosition> list = new ArrayList<>();
         for (int row=-1; row<2; row++){
             for (int col=-1; col<2; col++){

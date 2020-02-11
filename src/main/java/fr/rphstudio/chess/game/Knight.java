@@ -9,7 +9,7 @@ public class Knight implements IMove {
 
 
     @Override
-    public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, IChess.ChessColor color) {
+    public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, ChessBoard board) {
         List<IChess.ChessPosition> list = new ArrayList<>();
 
         list.add(new IChess.ChessPosition(p.x+1, p.y-2)) ;
@@ -27,6 +27,5 @@ public class Knight implements IMove {
         for (int i =0; i<list.size(); i++){
             //System.out.println("Knight pos: " +list.get(i).y + "." + list.get(i).x);
         }
-        return list;
-    }
+        return list;    }
 }
