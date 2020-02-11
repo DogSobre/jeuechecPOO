@@ -163,6 +163,20 @@ public class ChessBoard {
         showTable();
 
         typeTable[newP.y][newP.x].setAlreadyMove(true);
+
+
+
+        promote(newP.y, newP.x);
+    }
+
+
+    private void promote(int y, int x){
+        if (typeTable[y][x].getType() == IChess.ChessType.TYP_PAWN && typeTable[y][x].getColor() == IChess.ChessColor.CLR_WHITE && y ==0){
+            typeTable[y][x] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_QUEEN, new Queen());
+        }
+        if (typeTable[y][x].getType() == IChess.ChessType.TYP_PAWN && typeTable[y][x].getColor() == IChess.ChessColor.CLR_BLACK && y ==7){
+            typeTable[y][x] =  new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_QUEEN, new Queen());
+        }
     }
 
 

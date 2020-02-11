@@ -30,16 +30,6 @@ public class Pawn implements IMove {
 
         }
 
-
-        if (piece.getColor() == IChess.ChessColor.CLR_WHITE && p.y ==0){
-
-             board.getTypeTable()[p.y][p.x] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_QUEEN, new Queen());
-        }
-
-        if (piece.getColor() == IChess.ChessColor.CLR_BLACK && p.y==7){
-
-            board.getTypeTable()[p.y][p.x] =  new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_QUEEN, new Queen());
-        }
         return list;
     }
 
