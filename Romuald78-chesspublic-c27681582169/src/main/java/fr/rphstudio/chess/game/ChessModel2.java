@@ -22,17 +22,15 @@ public class ChessModel2 implements IChess {
     }
 
 
-    @Override
     public void reinit() {
 
     }
 
-    @Override
     public ChessType getPieceType(ChessPosition p) throws EmptyCellException, OutOfBoardException {
         return null;
     }
 
-    @Override
+
     public ChessColor getPieceColor(ChessPosition p) throws EmptyCellException, OutOfBoardException {
         if(p.y<=1){
             return ChessColor.CLR_WHITE;
@@ -42,41 +40,37 @@ public class ChessModel2 implements IChess {
         }
     }
 
-    @Override
+
     public int getNbRemainingPieces(ChessColor color) {
         int remaining =  0;
-        for (remaining = 0; remaining<0; remaining++){
-            
+        for (int i = 0; i<0; i++){
+            for (int j = 0; j<0; j++){
+                
+            }
         }
         return remaining;
     }
 
-    @Override
     public List<ChessPosition> getPieceMoves(ChessPosition p) {
         return null;
     }
 
-    @Override
     public void movePiece(ChessPosition p0, ChessPosition p1) {
 
     }
 
-    @Override
     public ChessKingState getKingState(ChessColor color) {
         return null;
     }
 
-    @Override
     public List<ChessType> getRemovedPieces(ChessColor color) {
         return null;
     }
 
-    @Override
     public boolean undoLastMove() {
         return false;
     }
 
-    @Override
     public long getPlayerDuration(ChessColor color, boolean isPlaying) {
         return 0;
     }
