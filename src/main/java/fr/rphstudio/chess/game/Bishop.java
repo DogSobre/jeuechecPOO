@@ -14,7 +14,6 @@ public class Bishop implements IMove {
         List<IChess.ChessPosition> list = new ArrayList<>();
 
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int posX = p.x-i;
             int posY = p.y-i;
             try{
@@ -34,7 +33,6 @@ public class Bishop implements IMove {
 
 
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int posX = p.x+i;
             int posY = p.y+i;
             try{
@@ -54,7 +52,6 @@ public class Bishop implements IMove {
 
 
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int posX = p.x+i;
             int posY = p.y-i;
             try{
@@ -73,7 +70,6 @@ public class Bishop implements IMove {
         }
 
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int posX = p.x-i;
             int posY = p.y+i;
             try{

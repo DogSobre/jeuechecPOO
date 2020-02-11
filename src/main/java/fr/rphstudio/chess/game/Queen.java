@@ -12,7 +12,6 @@ public class Queen implements IMove {
     public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, ChessBoard board) {
         List<IChess.ChessPosition> list = new ArrayList<>();
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int pos = p.y-i;
             try{
                 if (board.getPiece(pos, p.x) == null){
@@ -31,9 +30,7 @@ public class Queen implements IMove {
 
 
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int pos = p.y+i;
-
             try{
                 if (board.getPiece(pos, p.x) == null){
                     list.add(new IChess.ChessPosition(p.x, pos)) ;
@@ -51,9 +48,7 @@ public class Queen implements IMove {
 
 
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int pos = p.x+i;
-
             try{
                 if (board.getPiece(p.y, pos) == null){
                     list.add(new IChess.ChessPosition(pos, p.y)) ;
@@ -70,9 +65,7 @@ public class Queen implements IMove {
         }
 
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int pos = p.x-i;
-
             try{
                 if (board.getPiece(p.y, pos) == null){
                     list.add(new IChess.ChessPosition(pos, p.y)) ;
@@ -91,9 +84,8 @@ public class Queen implements IMove {
 
 
 
-
+        // diagonale moves
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int posX = p.x-i;
             int posY = p.y-i;
             try{
@@ -113,7 +105,6 @@ public class Queen implements IMove {
 
 
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int posX = p.x+i;
             int posY = p.y+i;
             try{
@@ -133,7 +124,6 @@ public class Queen implements IMove {
 
 
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int posX = p.x+i;
             int posY = p.y-i;
             try{
@@ -152,7 +142,6 @@ public class Queen implements IMove {
         }
 
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int posX = p.x-i;
             int posY = p.y+i;
             try{

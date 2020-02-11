@@ -13,7 +13,6 @@ public class Rook implements IMove {
         List<IChess.ChessPosition> list = new ArrayList<>();
 
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int pos = p.y-i;
             try{
                 if (board.getPiece(pos, p.x) == null){
@@ -32,9 +31,7 @@ public class Rook implements IMove {
 
 
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int pos = p.y+i;
-
             try{
                 if (board.getPiece(pos, p.x) == null){
                     list.add(new IChess.ChessPosition(p.x, pos)) ;
@@ -52,9 +49,7 @@ public class Rook implements IMove {
 
 
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int pos = p.x+i;
-
             try{
                 if (board.getPiece(p.y, pos) == null){
                     list.add(new IChess.ChessPosition(pos, p.y)) ;
@@ -71,9 +66,7 @@ public class Rook implements IMove {
         }
 
         for (int i=1; i<8; i++){
-            System.out.println(list);
             int pos = p.x-i;
-
             try{
                 if (board.getPiece(p.y, pos) == null){
                     list.add(new IChess.ChessPosition(pos, p.y)) ;
