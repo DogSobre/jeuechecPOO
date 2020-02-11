@@ -3,7 +3,7 @@ package fr.rphstudio.chess.game;
 import fr.rphstudio.chess.interf.EmptyCellException;
 import fr.rphstudio.chess.interf.IChess;
 import fr.rphstudio.chess.interf.OutOfBoardException;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChessModel2 implements IChess {
@@ -18,7 +18,7 @@ public class ChessModel2 implements IChess {
         if (ChessModel2.instance == null) {
             ChessModel2.instance = new ChessModel2();
         }
-        return instance;
+            return ChessModel2.instance;
     }
 
 
@@ -27,6 +27,26 @@ public class ChessModel2 implements IChess {
     }
 
     public ChessType getPieceType(ChessPosition p) throws EmptyCellException, OutOfBoardException {
+        if(p.y==1 || p.y==6){
+                return ChessType.TYP_PAWN;
+            }
+        else{
+            if (p.y == 0 || p.y == 7) {
+
+                if (p.x == 2 || p.x == 5) {
+                    return ChessType.TYP_BISHOP;
+                }
+                if (p.x == 3) {
+                    return ChessType.TYP_QUEEN;
+                }
+                if ((p.x == 4)) {
+                    return ChessType.TYP_KING;
+                }
+                if (p.x == 1 || p.x == 6) {
+                    return ChessType.TYP_KNIGHT;
+                }
+            }
+        }
         return null;
     }
 
@@ -42,17 +62,12 @@ public class ChessModel2 implements IChess {
 
 
     public int getNbRemainingPieces(ChessColor color) {
-        int remaining =  0;
-        for (int i = 0; i<0; i++){
-            for (int j = 0; j<0; j++){
-                
-            }
-        }
-        return remaining;
+        return 0;
     }
 
     public List<ChessPosition> getPieceMoves(ChessPosition p) {
-        return null;
+        List<ChessPosition> list = new ArrayList<>();
+        return list;
     }
 
     public void movePiece(ChessPosition p0, ChessPosition p1) {
@@ -60,11 +75,12 @@ public class ChessModel2 implements IChess {
     }
 
     public ChessKingState getKingState(ChessColor color) {
-        return null;
+        return ChessKingState.KING_THREATEN;
     }
 
     public List<ChessType> getRemovedPieces(ChessColor color) {
-        return null;
+        List<ChessType> list = new ArrayList<>();
+        return list;
     }
 
     public boolean undoLastMove() {
