@@ -149,7 +149,6 @@ public class ChessBoard {
                 }
             }
         }
-        //if (typeTable[list.get(i).y][list.get(i).x].getColor()==typeTable[p.y][p.x].getColor()) { }
         return listFinal;
     }
 
@@ -158,6 +157,8 @@ public class ChessBoard {
         typeTable[newP.y][newP.x] = typeTable[oldP.y][oldP.x];
         typeTable[oldP.y][oldP.x] = null;
         showTable();
+
+        typeTable[newP.y][newP.x].setAlreadyMove(true);
     }
 
 

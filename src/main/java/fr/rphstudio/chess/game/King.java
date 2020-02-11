@@ -8,7 +8,6 @@ import java.util.List;
 public class King implements IMove{
 
 
-
     @Override
     public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, ChessBoard board) {
         List<IChess.ChessPosition> list = new ArrayList<>();
@@ -22,4 +21,11 @@ public class King implements IMove{
 
         return list;
     }
+
+    //roi n'apas bougé, tour non plus
+    //roi pas deja en echec
+    //roi jamais en echec sur les cases traversé
+    //vide entre tour et roi
+
+    // le roi avance 2 case vers tour, la tour une case plus au centre
 }

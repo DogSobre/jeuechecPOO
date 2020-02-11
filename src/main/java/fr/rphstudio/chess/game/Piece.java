@@ -6,6 +6,7 @@ public class Piece {
     private IChess.ChessColor color ;
     private IChess.ChessType type;
     private IMove move;
+    private boolean alreadyMove = false;
 
 
     public Piece(IChess.ChessColor color, IChess.ChessType type, IMove move){
@@ -24,5 +25,13 @@ public class Piece {
 
     public IMove getMove() {
         return move;
+    }
+
+    public boolean isAlreadyMove() {
+        return alreadyMove;
+    }
+
+    public void setAlreadyMove(boolean alreadyMove) {
+        this.alreadyMove = alreadyMove;
     }
 }
