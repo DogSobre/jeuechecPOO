@@ -23,6 +23,10 @@ public class ChessBoard {
     }
 
 
+    public Piece[][] getTypeTable() {
+        return typeTable;
+    }
+
     public IChess.ChessType getPieceType(IChess.ChessPosition p) throws EmptyCellException, OutOfBoardException {
         if (p.x>=typeTable.length || p.y>=typeTable.length || p.x<0 || p.y<0){
             throw new OutOfBoardException();
