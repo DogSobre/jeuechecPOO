@@ -34,12 +34,21 @@ public class ChessModel2 implements IChess {
 
     @Override
     public ChessColor getPieceColor(ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        return null;
+        if(p.y<=1){
+            return ChessColor.CLR_WHITE;
+        }
+        else{
+            return ChessColor.CLR_BLACK;
+        }
     }
 
     @Override
     public int getNbRemainingPieces(ChessColor color) {
-        return 0;
+        int remaining =  0;
+        for (remaining = 0; remaining<0; remaining++){
+            
+        }
+        return remaining;
     }
 
     @Override
