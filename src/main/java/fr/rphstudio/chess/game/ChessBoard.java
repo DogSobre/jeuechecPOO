@@ -137,16 +137,16 @@ public class ChessBoard {
         for (int i=0; i<list.size(); i++) {
             if (list.get(i).y >= 0 && list.get(i).y < 8 && list.get(i).x >= 0 && list.get(i).x < 8) {
 
-                listFinal.add(list.get(i));
+                //listFinal.add(list.get(i));
 
-                /*
+                //limit when is the same color than the piece selected
                 if (typeTable[list.get(i).y][list.get(i).x]==null){
                     listFinal.add(list.get(i));
                 }
                 else if (typeTable[list.get(i).y][list.get(i).x].getColor()!=typeTable[p.y][p.x].getColor()) {
-                            listFinal.add(list.get(i));
-                    }
-                }*/
+                    listFinal.add(list.get(i));
+
+                }
             }
         }
         //if (typeTable[list.get(i).y][list.get(i).x].getColor()==typeTable[p.y][p.x].getColor()) { }
