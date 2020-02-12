@@ -106,10 +106,10 @@ public class ChessModel2 implements IChess {
         try {
 
             if (getKingState(typeTable[p.y][p.x].getColor()) == IChess.ChessKingState.KING_SAFE){
-                return board.getPieceMoves(p, true);
+                return board.getPieceMovesIfSafe(p, true);
             }
             else {
-                return board.getPieceMoves(p, false);
+                return board.getPieceMovesIfSafe(p, false);
 
             }
         }catch (Exception e){

@@ -66,7 +66,7 @@ public class ChessBoard {
             for (int j = 0; j<8; j++){
                 try {
                     if (getPiece(i, j).getColor() != color) {
-                        List<IChess.ChessPosition> list = getPieceMoves(new IChess.ChessPosition(j, i));
+                        List<IChess.ChessPosition> list = getPieceMovesIfSafe(new IChess.ChessPosition(j, i));
 
                         finalList.addAll(list);
                     }
@@ -86,6 +86,23 @@ public class ChessBoard {
             }
         }
         return IChess.ChessKingState.KING_SAFE;
+    }
+
+
+    public List<IChess.ChessPosition> getEnemiesMoves(IChess.ChessColor color){
+        List<IChess.ChessPosition> finalList= new ArrayList<>();
+        for (int i = 0; i<8; i++){
+            for (int j = 0; j<8; j++){
+                try {
+                    if (getPiece(i, j).getColor() != color) {
+                        List<IChess.ChessPosition> list = getPieceMovesIfSafe(new IChess.ChessPosition(j, i));
+                        finalList.addAll(list);
+                    }
+                }catch (Exception e ){
+                }
+            }
+        }
+        return finalList;
     }
 
 
@@ -144,10 +161,11 @@ public class ChessBoard {
     }
 
 
-    public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p) {
+    public List<IChess.ChessPosition> getPieceMovesIfSafe(IChess.ChessPosition p) {
         List<IChess.ChessPosition> list = typeTable[p.y][p.x].getMove().getPieceMoves(p, this);
         List<IChess.ChessPosition> listFinal = new ArrayList<>();
 
+        // the pattern move of pieces have to include all ways they could go, and here we limit
         for (int i=0; i<list.size(); i++) {
             if (list.get(i).y >= 0 && list.get(i).y < 8 && list.get(i).x >= 0 && list.get(i).x < 8) {
 
@@ -167,23 +185,39 @@ public class ChessBoard {
     }
 
 
-    public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, boolean isKingSafe) {
-        //List<IChess.ChessPosition> list = typeTable[p.y][p.x].getMove().getPieceMoves(p, this);
-        List<IChess.ChessPosition> listFinal = new ArrayList<>();
+    public List<IChess.ChessPosition> getPieceMovesIfSafe(IChess.ChessPosition p, boolean isKingSafe) {
+        List<IChess.ChessPosition> listFinal = testIfWillThreaten(p);
 
-        if (isKingSafe) {
-            listFinal = getPieceMoves(p);
-        }
-        else {
-            // not be the total solution
-            if (typeTable[p.y][p.x].getType() == IChess.ChessType.TYP_KING){
-                listFinal = getPieceMoves(p);
-            }
-            else {
-
-            }
-        }
         return listFinal;
+    }
+
+    public List<IChess.ChessPosition> testIfWillThreaten(IChess.ChessPosition p){
+        List<IChess.ChessPosition> list = getPieceMovesIfSafe(p);
+        List<IChess.ChessPosition> listFinal = new ArrayList<>();
+        IChess.ChessPosition p1;
+
+        for (int i=0; i<list.size(); i++){
+            try {
+                p1 = list.get(i);
+                moveForKing(p, p1, listFinal);
+
+            }catch (Exception e){
+
+            }
+        }
+
+        return listFinal;
+    }
+
+    public void moveForKing(IChess.ChessPosition oldP, IChess.ChessPosition newP, List<IChess.ChessPosition> list) {
+        Piece save = typeTable[newP.y][newP.x];
+        typeTable[newP.y][newP.x] = typeTable[oldP.y][oldP.x];
+        typeTable[oldP.y][oldP.x] = null;
+        if (getKingState(typeTable[newP.y][newP.x].getColor())== IChess.ChessKingState.KING_SAFE){
+            list.add(newP);
+        }
+        typeTable[oldP.y][oldP.x] = typeTable[newP.y][newP.x];
+        typeTable[newP.y][newP.x] = save;
     }
 
 
@@ -229,15 +263,16 @@ public class ChessBoard {
     private void roque(IChess.ChessPosition oldP, IChess.ChessPosition newP, boolean hasMoved){
         if (typeTable[newP.y][newP.x].getType() == IChess.ChessType.TYP_KING && !hasMoved){
 
-            if (newP.x-oldP.x <0){
+            if (newP.x-oldP.x <0 && typeTable[newP.y][0].getType()== IChess.ChessType.TYP_ROOK){
                 typeTable[newP.y][newP.x+1]  = typeTable[newP.y][0];
                 typeTable[newP.y][0]=null;
             }
-            else if(newP.x-oldP.x >0){
+            else if(newP.x-oldP.x >0 && typeTable[newP.y][7].getType()== IChess.ChessType.TYP_ROOK){
                 typeTable[newP.y][newP.x-1]  = typeTable[newP.y][7];
                 typeTable[newP.y][7]=null;
             }
         }
+
     }
 
     public List<IChess.ChessType> getRemovedPieces(IChess.ChessColor color){
