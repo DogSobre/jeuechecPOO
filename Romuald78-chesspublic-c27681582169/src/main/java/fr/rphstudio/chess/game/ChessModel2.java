@@ -31,16 +31,15 @@ public class ChessModel2 implements IChess {
         if (piece == null){
             throw new EmptyCellException();
         }
-        return null;
+        return piece.getType();
     }
 
     public ChessColor getPieceColor(ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        if(p.y<=1){
-            return ChessColor.CLR_WHITE;
+        Piece piece = this.typeTable[p.y][p.x];
+        if (piece == null){
+            throw new EmptyCellException();
         }
-        else{
-            return ChessColor.CLR_BLACK;
-        }
+        return piece.getColor();
     }
 
 
