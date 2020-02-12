@@ -15,8 +15,7 @@ public class ChessBoard {
     private List<IChess.ChessType> listTypeBlack;
     private List<IChess.ChessType> listTypeWhite;
     private List<Piece[][]> listOfTable;
-    private List<Boolean> listOfFirstMove;
-
+    private List<Object> listOfRemovedColor;
 
     /**
      * This is the ChessBoard constructor
@@ -151,14 +150,14 @@ public class ChessBoard {
         listTypeBlack = new ArrayList<>();
         listTypeWhite = new ArrayList<>();
         listOfTable = new ArrayList<>();
-        listOfFirstMove = new ArrayList<>();
-        // will need to reinit all the move for this game the move
+        listOfRemovedColor = new ArrayList<>();
 
         // pawn set-up
         for (int col=0; col<typeTable.length; col++){
             typeTable[1][col] = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_PAWN, new Pawn());
             typeTable[6][col] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_PAWN, new Pawn());
         }
+
 
         for (int col=0; col<typeTable.length; col++){
             if (col==0 || col==7) {
@@ -278,6 +277,8 @@ public class ChessBoard {
         boolean isMoved = typeTable[oldP.y][oldP.x].isAlreadyMove();
 
         if (typeTable[newP.y][newP.x] == null){
+            listOfRemovedColor.add(typeTable[newP.y][newP.x]);
+
         }else {
             if (typeTable[newP.y][newP.x].getColor()== IChess.ChessColor.CLR_WHITE){
                 listTypeWhite.add(typeTable[newP.y][newP.x].getType());
@@ -285,13 +286,14 @@ public class ChessBoard {
             else {
                 listTypeBlack.add(typeTable[newP.y][newP.x].getType());
             }
+            listOfRemovedColor.add(typeTable[newP.y][newP.x].getColor());
         }
+
 
         typeTable[newP.y][newP.x] = typeTable[oldP.y][oldP.x];
         typeTable[oldP.y][oldP.x] = null;
         showTable();
 
-        listOfFirstMove.add(typeTable[newP.y][newP.x].isAlreadyMove());
         typeTable[newP.y][newP.x].setAlreadyMove(true);
 
         castling(oldP, newP, isMoved);
@@ -324,11 +326,11 @@ public class ChessBoard {
     private void castling(IChess.ChessPosition oldP, IChess.ChessPosition newP, boolean hasMoved){
         if (typeTable[newP.y][newP.x].getType() == IChess.ChessType.TYP_KING && !hasMoved && getKingState(typeTable[newP.y][newP.x].getColor())== IChess.ChessKingState.KING_SAFE){
 
-            if (newP.x-oldP.x <0 && typeTable[newP.y][0].getType()== IChess.ChessType.TYP_ROOK){
+            if (newP.x-oldP.x <-1 && typeTable[newP.y][0].getType()== IChess.ChessType.TYP_ROOK){
                 typeTable[newP.y][newP.x+1]  = typeTable[newP.y][0];
                 typeTable[newP.y][0]=null;
             }
-            else if(newP.x-oldP.x >0 && typeTable[newP.y][7].getType()== IChess.ChessType.TYP_ROOK){
+            else if(newP.x-oldP.x >1 && typeTable[newP.y][7].getType()== IChess.ChessType.TYP_ROOK){
                 typeTable[newP.y][newP.x-1]  = typeTable[newP.y][7];
                 typeTable[newP.y][7]=null;
             }
@@ -360,7 +362,14 @@ public class ChessBoard {
         if (listOfTable.size()>0) {
             typeTable = listOfTable.get(listOfTable.size() - 1);
             listOfTable.remove(listOfTable.size() - 1);
-            listOfFirstMove.remove(listOfFirstMove.size()-1);
+
+            if (listOfRemovedColor.get(listOfRemovedColor.size()-1)== IChess.ChessColor.CLR_WHITE){
+                listTypeWhite.remove(listTypeWhite.size()-1);
+            }
+            else if (listOfRemovedColor.get(listOfRemovedColor.size()-1)== IChess.ChessColor.CLR_BLACK){
+                listTypeBlack.remove(listTypeBlack.size()-1);
+            }
+            listOfRemovedColor.remove(listOfRemovedColor.size()-1);
 
             return true;
         }
