@@ -92,7 +92,7 @@ public class ChessModel2 implements IChess {
      */
     @Override
     public int getNbRemainingPieces(ChessColor color) {
-        return board.isRemaining(color);
+        return board.numberOfRemaining(color);
     }
 
 
@@ -104,7 +104,14 @@ public class ChessModel2 implements IChess {
     @Override
     public List<ChessPosition> getPieceMoves(ChessPosition p) {
         try {
-            return board.getPieceMoves(p);
+
+            if (getKingState(typeTable[p.y][p.x].getColor()) == IChess.ChessKingState.KING_SAFE){
+                return board.getPieceMoves(p, true);
+            }
+            else {
+                return board.getPieceMoves(p, false);
+
+            }
         }catch (Exception e){
             return new ArrayList<>();
         }
@@ -129,7 +136,7 @@ public class ChessModel2 implements IChess {
      */
     @Override
     public ChessKingState getKingState(ChessColor color) {
-        return ChessKingState.KING_SAFE;
+        return board.getKingState(color);
     }
 
 
