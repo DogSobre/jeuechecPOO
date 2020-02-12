@@ -15,6 +15,7 @@ public class ChessBoard {
     private List<IChess.ChessType> listTypeBlack;
     private List<IChess.ChessType> listTypeWhite;
     private List<Piece[][]> listOfTable;
+    private List<Boolean> listOfFirstMove;
 
 
     /**
@@ -150,7 +151,7 @@ public class ChessBoard {
         listTypeBlack = new ArrayList<>();
         listTypeWhite = new ArrayList<>();
         listOfTable = new ArrayList<>();
-
+        listOfFirstMove = new ArrayList<>();
         // will need to reinit all the move for this game the move
 
         // pawn set-up
@@ -290,10 +291,12 @@ public class ChessBoard {
         typeTable[oldP.y][oldP.x] = null;
         showTable();
 
+        listOfFirstMove.add(typeTable[newP.y][newP.x].isAlreadyMove());
         typeTable[newP.y][newP.x].setAlreadyMove(true);
 
         castling(oldP, newP, isMoved);
         promote(newP.y, newP.x);
+
     }
 
 
@@ -352,10 +355,13 @@ public class ChessBoard {
      * @return  boolean : true if we allowed the undo action
      */
     public boolean undoMove(){
-        System.out.println("\n\n try ---------------------------------------------------------------------------------------------");
+
+       System.out.println("\n\n try ---------------------------------------------------------------------------------------------");
         if (listOfTable.size()>0) {
             typeTable = listOfTable.get(listOfTable.size() - 1);
             listOfTable.remove(listOfTable.size() - 1);
+            listOfFirstMove.remove(listOfFirstMove.size()-1);
+
             return true;
         }
         return false;
@@ -371,7 +377,76 @@ public class ChessBoard {
         Piece[][] table = new Piece[8][8];
         for (int i =0; i<8; i++){
             for (int j =0; j<8; j++){
-                table[i][j]= typeTable[i][j];
+                //
+                Piece myPiece = null;
+
+                if (typeTable[i][j]==null){}
+                else {
+
+                    if (typeTable[i][j].getType() == IChess.ChessType.TYP_KNIGHT) {
+                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_BLACK) {
+                            myPiece = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_KNIGHT, new Knight());
+                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
+                        }
+                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_WHITE) {
+                            myPiece = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_KNIGHT, new Knight());
+                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
+                        }
+                    }
+                    if (typeTable[i][j].getType() == IChess.ChessType.TYP_ROOK) {
+                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_BLACK) {
+                            myPiece = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_ROOK, new Rook());
+                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
+                        }
+                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_WHITE) {
+                            myPiece = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_ROOK, new Rook());
+                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
+                        }
+                    }
+                    if (typeTable[i][j].getType() == IChess.ChessType.TYP_BISHOP) {
+                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_BLACK) {
+                            myPiece = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_BISHOP, new Bishop());
+                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
+                        }
+                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_WHITE) {
+                            myPiece = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_BISHOP, new Bishop());
+                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
+                        }
+                    }
+                    if (typeTable[i][j].getType() == IChess.ChessType.TYP_PAWN) {
+                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_BLACK) {
+                            myPiece = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_PAWN, new Pawn());
+                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
+                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
+                        }
+                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_WHITE) {
+                            myPiece = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_PAWN, new Pawn());
+                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
+                        }
+                    }
+                    if (typeTable[i][j].getType() == IChess.ChessType.TYP_QUEEN) {
+                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_BLACK) {
+                            myPiece = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_QUEEN, new Queen());
+                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
+                        }
+                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_WHITE) {
+                            myPiece = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_QUEEN, new Queen());
+                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
+                        }
+                    }
+                    if (typeTable[i][j].getType() == IChess.ChessType.TYP_KING) {
+                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_BLACK) {
+                            myPiece = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_KING, new King());
+                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
+                        }
+                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_WHITE) {
+                            myPiece = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_KING, new King());
+                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
+                        }
+                    }
+                }
+                table[i][j] = myPiece;
+
             }
         }
         return table;
