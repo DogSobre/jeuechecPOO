@@ -33,7 +33,7 @@ public class ChessModel2 implements IChess {
      */
     @Override
     public void reinit() {
-        typeTable = board.createTable();
+        typeTable = board.reinitialise();
     }
 
 
@@ -104,14 +104,7 @@ public class ChessModel2 implements IChess {
     @Override
     public List<ChessPosition> getPieceMoves(ChessPosition p) {
         try {
-
-            if (getKingState(typeTable[p.y][p.x].getColor()) == IChess.ChessKingState.KING_SAFE){
-                return board.testIfWillThreaten(p);
-            }
-            else {
-                return board.testIfWillThreaten(p);
-
-            }
+            return board.testIfWillThreaten(p);
         }catch (Exception e){
             return new ArrayList<>();
         }
@@ -148,7 +141,8 @@ public class ChessModel2 implements IChess {
 
     @Override
     public boolean undoLastMove() {
-        return false;
+        return board.undoMove();
+
     }
 
 

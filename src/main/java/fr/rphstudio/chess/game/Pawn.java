@@ -1,13 +1,23 @@
 package fr.rphstudio.chess.game;
 
 import fr.rphstudio.chess.interf.IChess;
-
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * This class is used to have a pattern of all the possible movement for a Pawn
+ */
 public class Pawn implements IMove {
 
 
+    /**
+     * This method is used to get the Piece's possible moves, depending of it's position
+     * and the pieces in the board (needed for Pawn)
+     * @param p     ChessPosition : the position of the piece
+     * @param board ChessBoard : the chess board, useful to know the piece environment
+     * @return      List : ChessPosition's list
+     */
     @Override
     public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, ChessBoard board) {
         List<IChess.ChessPosition> list = new ArrayList<>();
@@ -32,12 +42,9 @@ public class Pawn implements IMove {
 
 
         if (piece.getColor() == IChess.ChessColor.CLR_WHITE && p.y ==0){
-
              board.getTypeTable()[p.y][p.x] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_QUEEN, new Queen());
         }
-
         if (piece.getColor() == IChess.ChessColor.CLR_BLACK && p.y==7){
-
             board.getTypeTable()[p.y][p.x] =  new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_QUEEN, new Queen());
         }
         return list;
