@@ -5,11 +5,12 @@ import fr.rphstudio.chess.interf.IChess;
 import fr.rphstudio.chess.interf.OutOfBoardException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ChessBoard {
     private Piece[][] typeTable;
+    private List<IChess.ChessType> listTypeBlack = new ArrayList<>();
+    private List<IChess.ChessType> listTypeWhite = new ArrayList<>();
 
 
     public ChessBoard(){
@@ -158,11 +159,35 @@ public class ChessBoard {
 
 
     public void movePiece(IChess.ChessPosition oldP, IChess.ChessPosition newP){
+
+        if (typeTable[newP.y][newP.x] == null){
+
+        }else {
+            if (typeTable[newP.y][newP.x].getColor()== IChess.ChessColor.CLR_WHITE){
+                listTypeWhite.add(typeTable[newP.y][newP.x].getType());
+                System.out.println(listTypeWhite);
+            }
+            else {
+                listTypeBlack.add(typeTable[newP.y][newP.x].getType());
+                System.out.println(listTypeBlack);
+            }
+
+        }
         typeTable[newP.y][newP.x] = typeTable[oldP.y][oldP.x];
         typeTable[oldP.y][oldP.x] = null;
         showTable();
 
         typeTable[newP.y][newP.x].setAlreadyMove(true);
+
+    }
+
+    public List<IChess.ChessType> getRemovedPieces(IChess.ChessColor color){
+        if (color== IChess.ChessColor.CLR_WHITE){
+            return listTypeWhite;
+        }
+        else {
+            return listTypeBlack;
+        }
     }
 
 
