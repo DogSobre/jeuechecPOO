@@ -377,76 +377,12 @@ public class ChessBoard {
         Piece[][] table = new Piece[8][8];
         for (int i =0; i<8; i++){
             for (int j =0; j<8; j++){
-                //
-                Piece myPiece = null;
-
-                if (typeTable[i][j]==null){}
-                else {
-
-                    if (typeTable[i][j].getType() == IChess.ChessType.TYP_KNIGHT) {
-                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_BLACK) {
-                            myPiece = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_KNIGHT, new Knight());
-                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
-                        }
-                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_WHITE) {
-                            myPiece = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_KNIGHT, new Knight());
-                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
-                        }
-                    }
-                    if (typeTable[i][j].getType() == IChess.ChessType.TYP_ROOK) {
-                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_BLACK) {
-                            myPiece = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_ROOK, new Rook());
-                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
-                        }
-                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_WHITE) {
-                            myPiece = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_ROOK, new Rook());
-                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
-                        }
-                    }
-                    if (typeTable[i][j].getType() == IChess.ChessType.TYP_BISHOP) {
-                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_BLACK) {
-                            myPiece = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_BISHOP, new Bishop());
-                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
-                        }
-                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_WHITE) {
-                            myPiece = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_BISHOP, new Bishop());
-                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
-                        }
-                    }
-                    if (typeTable[i][j].getType() == IChess.ChessType.TYP_PAWN) {
-                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_BLACK) {
-                            myPiece = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_PAWN, new Pawn());
-                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
-                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
-                        }
-                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_WHITE) {
-                            myPiece = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_PAWN, new Pawn());
-                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
-                        }
-                    }
-                    if (typeTable[i][j].getType() == IChess.ChessType.TYP_QUEEN) {
-                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_BLACK) {
-                            myPiece = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_QUEEN, new Queen());
-                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
-                        }
-                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_WHITE) {
-                            myPiece = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_QUEEN, new Queen());
-                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
-                        }
-                    }
-                    if (typeTable[i][j].getType() == IChess.ChessType.TYP_KING) {
-                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_BLACK) {
-                            myPiece = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_KING, new King());
-                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
-                        }
-                        if (typeTable[i][j].getColor() == IChess.ChessColor.CLR_WHITE) {
-                            myPiece = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_KING, new King());
-                            myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
-                        }
-                    }
+                Piece myPiece = typeTable[i][j];
+                if (typeTable[i][j]!=null){
+                    myPiece = new Piece(myPiece.getColor(), myPiece.getType(), myPiece.getMove());
+                    myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
                 }
                 table[i][j] = myPiece;
-
             }
         }
         return table;

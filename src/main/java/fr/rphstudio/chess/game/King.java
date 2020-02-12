@@ -40,7 +40,6 @@ public class King implements IMove{
             }
         }catch (Exception e ){
         }
-
         try{
             if (!board.getPiece(p.y, p.x).isAlreadyMove()  && !board.getPiece(p.y, p.x+3).isAlreadyMove() && board.getPiece(p.y, p.x+3).getType()== IChess.ChessType.TYP_ROOK){
                 if (board.getPiece(p.y, p.x+1)==null && board.getPiece(p.y, p.x+2)==null){
