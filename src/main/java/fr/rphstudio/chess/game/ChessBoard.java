@@ -112,6 +112,8 @@ public class ChessBoard {
         listTypeBlack = new ArrayList<>();
         listTypeWhite = new ArrayList<>();
 
+        // will need to reinit all the move for this game the move
+
         // pawn set-up
         for (int col=0; col<typeTable.length; col++){
             typeTable[1][col] = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_PAWN, new Pawn());
@@ -185,11 +187,6 @@ public class ChessBoard {
     }
 
 
-    public List<IChess.ChessPosition> getPieceMovesIfSafe(IChess.ChessPosition p, boolean isKingSafe) {
-        List<IChess.ChessPosition> listFinal = testIfWillThreaten(p);
-
-        return listFinal;
-    }
 
     public List<IChess.ChessPosition> testIfWillThreaten(IChess.ChessPosition p){
         List<IChess.ChessPosition> list = getPieceMovesIfSafe(p);
@@ -199,7 +196,15 @@ public class ChessBoard {
         for (int i=0; i<list.size(); i++){
             try {
                 p1 = list.get(i);
-                moveForKing(p, p1, listFinal);
+                //moveForKing(p, p1, listFinal);
+                Piece save = typeTable[p1.y][p1.x];
+                typeTable[p1.y][p1.x] = typeTable[p.y][p.x];
+                typeTable[p.y][p.x] = null;
+                if (getKingState(typeTable[p1.y][p1.x].getColor())== IChess.ChessKingState.KING_SAFE){
+                    listFinal.add(p1);
+                }
+                typeTable[p.y][p.x] = typeTable[p1.y][p1.x];
+                typeTable[p1.y][p1.x] = save;
 
             }catch (Exception e){
 
@@ -207,17 +212,6 @@ public class ChessBoard {
         }
 
         return listFinal;
-    }
-
-    public void moveForKing(IChess.ChessPosition oldP, IChess.ChessPosition newP, List<IChess.ChessPosition> list) {
-        Piece save = typeTable[newP.y][newP.x];
-        typeTable[newP.y][newP.x] = typeTable[oldP.y][oldP.x];
-        typeTable[oldP.y][oldP.x] = null;
-        if (getKingState(typeTable[newP.y][newP.x].getColor())== IChess.ChessKingState.KING_SAFE){
-            list.add(newP);
-        }
-        typeTable[oldP.y][oldP.x] = typeTable[newP.y][newP.x];
-        typeTable[newP.y][newP.x] = save;
     }
 
 
@@ -243,7 +237,7 @@ public class ChessBoard {
 
         typeTable[newP.y][newP.x].setAlreadyMove(true);
 
-        roque(oldP, newP, isMoved);
+        castling(oldP, newP, isMoved);
         promote(newP.y, newP.x);
     }
 
@@ -260,7 +254,7 @@ public class ChessBoard {
 
 
 
-    private void roque(IChess.ChessPosition oldP, IChess.ChessPosition newP, boolean hasMoved){
+    private void castling(IChess.ChessPosition oldP, IChess.ChessPosition newP, boolean hasMoved){
         if (typeTable[newP.y][newP.x].getType() == IChess.ChessType.TYP_KING && !hasMoved){
 
             if (newP.x-oldP.x <0 && typeTable[newP.y][0].getType()== IChess.ChessType.TYP_ROOK){
