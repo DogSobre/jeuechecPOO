@@ -230,9 +230,9 @@ public interface IChess
     /**
      * Gets the type of a piece at the given position on the board.
      * @param p x/y position on the board where we want to get the piece type.
-     * @return the piece type at the requested position. Values are taken from ChessType.
      * @throws EmptyCellException when the targeted cell contains no piece.
      * @throws OutOfBoardException when the position is outside the chess board.
+     * @return
      */
     public ChessType getPieceType(ChessPosition p) throws EmptyCellException, OutOfBoardException;
 

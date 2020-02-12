@@ -912,8 +912,9 @@ class ChessGameController extends BasicGameState
                 try
                 {
                     ChessType type   = this.board.getPieceType(locPos);
-                    ChessColor color = this.board.getPieceColor(locPos);
-                    
+                    ChessColor color;
+                    color = this.board.getPieceColor(locPos);
+
                     Vector2f realPos  = new Vector2f((x+0.5f)*this.offCellX, (y+0.5f)*this.offCellY);
                     Vector2f persPos  = this.getPerspectivePosition(realPos);
                     Image curPieceGfx = this.pieceGfx.getSprite(type.ordinal(), color.ordinal()).getScaledCopy(0.5f);

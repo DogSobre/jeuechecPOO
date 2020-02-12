@@ -7,6 +7,11 @@ public class Piece {
     private IChess.ChessColor color;
     private IChess.ChessType type;
 
+    public Piece(IChess.ChessColor color, IChess.ChessType type){
+        this.color = color;
+        this.type = type;
+    }
+
     public IChess.ChessColor getColor() {
         return color;
     }

@@ -1,15 +1,15 @@
 package fr.rphstudio.chess.game;
 
+import fr.rphstudio.chess.interf.OutOfBoardException;
 import fr.rphstudio.chess.interf.EmptyCellException;
 import fr.rphstudio.chess.interf.IChess;
-import fr.rphstudio.chess.interf.OutOfBoardException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChessModel2 implements IChess {
 
     private static ChessModel2 instance;
-
+    private Piece[][] typeTable = new Piece[8][8];
     private ChessModel2() {
 
     }
@@ -23,33 +23,16 @@ public class ChessModel2 implements IChess {
 
 
     public void reinit() {
-
+        typeTable = new ChessBoard().create();
     }
 
     public ChessType getPieceType(ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        if(p.y==1 || p.y==6){
-                return ChessType.TYP_PAWN;
-            }
-        else{
-            if (p.y == 0 || p.y == 7) {
-
-                if (p.x == 2 || p.x == 5) {
-                    return ChessType.TYP_BISHOP;
-                }
-                if (p.x == 3) {
-                    return ChessType.TYP_QUEEN;
-                }
-                if ((p.x == 4)) {
-                    return ChessType.TYP_KING;
-                }
-                if (p.x == 1 || p.x == 6) {
-                    return ChessType.TYP_KNIGHT;
-                }
-            }
+        Piece piece = this.typeTable[p.y][p.x];
+        if (piece == null){
+            throw new EmptyCellException();
         }
         return null;
     }
-
 
     public ChessColor getPieceColor(ChessPosition p) throws EmptyCellException, OutOfBoardException {
         if(p.y<=1){
