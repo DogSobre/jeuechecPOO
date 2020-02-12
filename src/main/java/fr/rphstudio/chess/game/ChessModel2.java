@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * This class is used as an interface between the GUI and the Chessboard managing
+ * using a design pattern 'singleton
  */
 public class ChessModel2 implements IChess {
     private static ChessModel2 instance ;
@@ -17,7 +18,7 @@ public class ChessModel2 implements IChess {
 
 
     /**
-     * This method is used as a design singleton
+     * This method is used to have only one instance of ChessModel2
      * @return
      */
     public static IChess getInstance() {
@@ -92,7 +93,7 @@ public class ChessModel2 implements IChess {
      */
     @Override
     public int getNbRemainingPieces(ChessColor color) {
-        return board.isRemaining(color);
+        return board.numberOfRemaining(color);
     }
 
 
@@ -104,7 +105,14 @@ public class ChessModel2 implements IChess {
     @Override
     public List<ChessPosition> getPieceMoves(ChessPosition p) {
         try {
-            return board.getPieceMoves(p);
+
+            if (getKingState(typeTable[p.y][p.x].getColor()) == IChess.ChessKingState.KING_SAFE){
+                return board.getPieceMoves(p, true);
+            }
+            else {
+                return board.getPieceMoves(p, false);
+
+            }
         }catch (Exception e){
             return new ArrayList<>();
         }
@@ -135,7 +143,9 @@ public class ChessModel2 implements IChess {
 
     @Override
     public List<ChessType> getRemovedPieces(ChessColor color) {
+        // need to be reinitialise when start a new game
         List<ChessType> list = new ArrayList<>();
+        list.add(ChessType.TYP_BISHOP);
         return list;
     }
 

@@ -149,7 +149,7 @@ public class ChessBoard {
     }
 
 
-    public int isRemaining(IChess.ChessColor color){
+    public int numberOfRemaining(IChess.ChessColor color){
         int remaining = 0;
         for (int i = 0; i< typeTable.length; i++) {
             for (int j = 0; j< typeTable.length; j++) {
@@ -169,6 +169,7 @@ public class ChessBoard {
         List<IChess.ChessPosition> list = typeTable[p.y][p.x].getMove().getPieceMoves(p, this);
         List<IChess.ChessPosition> listFinal = new ArrayList<>();
 
+
         for (int i=0; i<list.size(); i++) {
             if (list.get(i).y >= 0 && list.get(i).y < 8 && list.get(i).x >= 0 && list.get(i).x < 8) {
 
@@ -181,6 +182,26 @@ public class ChessBoard {
                 else if (typeTable[list.get(i).y][list.get(i).x].getColor()!=typeTable[p.y][p.x].getColor()) {
                     listFinal.add(list.get(i));
                 }
+
+            }
+        }
+        return listFinal;
+    }
+
+    public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, boolean isKingSafe) {
+        //List<IChess.ChessPosition> list = typeTable[p.y][p.x].getMove().getPieceMoves(p, this);
+        List<IChess.ChessPosition> listFinal = new ArrayList<>();
+
+        if (isKingSafe) {
+            listFinal = getPieceMoves(p);
+        }
+        else {
+            // not be the total solution
+            if (typeTable[p.y][p.x].getType() == IChess.ChessType.TYP_KING){
+                listFinal = getPieceMoves(p);
+            }
+            else {
+
             }
         }
         return listFinal;
@@ -189,6 +210,7 @@ public class ChessBoard {
 
     public void movePiece(IChess.ChessPosition oldP, IChess.ChessPosition newP){
         boolean isMoved = typeTable[oldP.y][oldP.x].isAlreadyMove();
+
         typeTable[newP.y][newP.x] = typeTable[oldP.y][oldP.x];
         typeTable[oldP.y][oldP.x] = null;
         showTable();
