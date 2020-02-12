@@ -102,7 +102,6 @@ public class ChessBoard {
                 try {
                     if (getPiece(i, j).getColor() != color) {
                         List<IChess.ChessPosition> list = getPieceMoves(new IChess.ChessPosition(j, i));
-
                         finalList.addAll(list);
                     }
 
@@ -120,6 +119,7 @@ public class ChessBoard {
                 return IChess.ChessKingState.KING_THREATEN;
             }
         }
+
         return IChess.ChessKingState.KING_SAFE;
     }
 
@@ -277,18 +277,15 @@ public class ChessBoard {
         boolean isMoved = typeTable[oldP.y][oldP.x].isAlreadyMove();
 
         if (typeTable[newP.y][newP.x] == null){
-
         }else {
             if (typeTable[newP.y][newP.x].getColor()== IChess.ChessColor.CLR_WHITE){
                 listTypeWhite.add(typeTable[newP.y][newP.x].getType());
-                System.out.println(listTypeWhite);
             }
             else {
                 listTypeBlack.add(typeTable[newP.y][newP.x].getType());
-                System.out.println(listTypeBlack);
             }
-
         }
+
         typeTable[newP.y][newP.x] = typeTable[oldP.y][oldP.x];
         typeTable[oldP.y][oldP.x] = null;
         showTable();
@@ -322,7 +319,7 @@ public class ChessBoard {
      * @param hasMoved  boolean : necessary to know if the king already move or not
      */
     private void castling(IChess.ChessPosition oldP, IChess.ChessPosition newP, boolean hasMoved){
-        if (typeTable[newP.y][newP.x].getType() == IChess.ChessType.TYP_KING && !hasMoved){
+        if (typeTable[newP.y][newP.x].getType() == IChess.ChessType.TYP_KING && !hasMoved && getKingState(typeTable[newP.y][newP.x].getColor())== IChess.ChessKingState.KING_SAFE){
 
             if (newP.x-oldP.x <0 && typeTable[newP.y][0].getType()== IChess.ChessType.TYP_ROOK){
                 typeTable[newP.y][newP.x+1]  = typeTable[newP.y][0];
@@ -333,7 +330,6 @@ public class ChessBoard {
                 typeTable[newP.y][7]=null;
             }
         }
-
     }
 
     /**
@@ -386,14 +382,14 @@ public class ChessBoard {
      * This method is used to see typeTable element in the console, with a format close to a ChessBoard
      */
     public void showTable(){
-        String result = "";
+        String result = "####################################################\n";
         for (int i=0; i<8; i++){
             for (int j=0; j<8; j++){
                 if (typeTable[i][j]!=null){
-                    result+=typeTable[i][j].getType() + " . ";
+                    result+=typeTable[i][j].getType() + "/" + typeTable[i][j].getColor() + " . ";
                 }
                 else {
-                    result+= "-------- . ";
+                    result+= "--------/--------- . ";
                 }
             }
             result+= "\n";

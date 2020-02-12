@@ -47,17 +47,6 @@ public class ChessModel2 implements IChess {
     @Override
     public ChessType getPieceType(ChessPosition p) throws EmptyCellException, OutOfBoardException {
         return  board.getPieceType(p);
-        /*if (p.x>=typeTable.length || p.y>=typeTable.length || p.x<0 || p.y<0){
-            throw new OutOfBoardException();
-        }
-
-        Piece piece = this.typeTable[p.y][p.x];
-        if (piece==null){
-            throw new EmptyCellException();
-        }
-        else {
-            return piece.getType();
-        }*/
     }
 
 
@@ -70,17 +59,6 @@ public class ChessModel2 implements IChess {
      */
     @Override
     public ChessColor getPieceColor(ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        /*if (p.x>=typeTable.length || p.y>=typeTable.length || p.x<0 || p.y<0){
-            throw new OutOfBoardException();
-        }
-
-        Piece piece = this.typeTable[p.y][p.x];
-        if (piece==null){
-            throw new EmptyCellException();
-        }
-        else {
-            return piece.getColor();
-        }*/
         return board.getPieceColor(p);
     }
 
