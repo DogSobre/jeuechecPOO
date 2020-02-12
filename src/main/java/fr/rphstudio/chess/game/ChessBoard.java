@@ -12,10 +12,11 @@ import java.util.List;
  */
 public class ChessBoard {
     private Piece[][] typeTable;
-    private List<IChess.ChessType> listTypeBlack;
-    private List<IChess.ChessType> listTypeWhite;
     private List<Piece[][]> listOfTable;
     private List<Object> listOfRemovedColor;
+    private IChess.ChessKingState WhiteKingStatus;
+    private IChess.ChessKingState BlackKingStatus;
+    private IChess.ChessColor playerColor;
 
     /**
      * This is the ChessBoard constructor
@@ -36,14 +37,6 @@ public class ChessBoard {
         return piece;
     }
 
-
-    /**
-     * This method is used to get the Chessboard table of Piece
-     * @return      Piece [][] : table containing all pieces
-     */
-    public Piece[][] getTypeTable() {
-        return typeTable;
-    }
 
     /**
      * This method is used to get a Piece type thanks to a given position
@@ -96,7 +89,7 @@ public class ChessBoard {
      */
     public IChess.ChessKingState getKingState(IChess.ChessColor color) {
         List<IChess.ChessPosition> finalList= new ArrayList<>();
-        IChess.ChessPosition p = new IChess.ChessPosition(-10, -10);
+        IChess.ChessPosition p = new IChess.ChessPosition(-1, -1);
         for (int i = 0; i<8; i++){
             for (int j = 0; j<8; j++){
                 try {
@@ -113,31 +106,25 @@ public class ChessBoard {
             }
         }
 
-
+        IChess.ChessKingState kingState = IChess.ChessKingState.KING_SAFE;
         for (int a = 0; a<finalList.size(); a++){
             if(finalList.get(a).equals(p)){
-                return IChess.ChessKingState.KING_THREATEN;
+                kingState = IChess.ChessKingState.KING_THREATEN;
+                break;
             }
         }
 
-        return IChess.ChessKingState.KING_SAFE;
+        return kingState;
     }
 
 
-    public List<IChess.ChessPosition> getEnemiesMoves(IChess.ChessColor color){
-        List<IChess.ChessPosition> finalList= new ArrayList<>();
-        for (int i = 0; i<8; i++){
-            for (int j = 0; j<8; j++){
-                try {
-                    if (getPiece(i, j).getColor() != color) {
-                        List<IChess.ChessPosition> list = getPieceMoves(new IChess.ChessPosition(j, i));
-                        finalList.addAll(list);
-                    }
-                }catch (Exception e ){
-                }
-            }
+    public IChess.ChessKingState getKingStatus(IChess.ChessColor color){
+        if (color == IChess.ChessColor.CLR_WHITE){
+            return WhiteKingStatus;
         }
-        return finalList;
+        else {
+            return BlackKingStatus;
+        }
     }
 
 
@@ -147,8 +134,7 @@ public class ChessBoard {
      */
     public Piece[][] reinitialise(){
         typeTable = new Piece[8][8];
-        listTypeBlack = new ArrayList<>();
-        listTypeWhite = new ArrayList<>();
+        RemovedPiece.getInstance().reinitialiseList();
         listOfTable = new ArrayList<>();
         listOfRemovedColor = new ArrayList<>();
 
@@ -192,7 +178,7 @@ public class ChessBoard {
      * @return      int : the number of remaining piece
      */
     public int numberOfRemaining(IChess.ChessColor color){
-        int remaining = 0;
+        /*int remaining = 0;
         for (int i = 0; i< typeTable.length; i++) {
             for (int j = 0; j< typeTable.length; j++) {
                 Piece piece = typeTable[i][j];
@@ -202,7 +188,10 @@ public class ChessBoard {
                     }
                 }
             }
-        }
+        }*/
+        //now we could calculate this int this way: initial pieces numbers - listSize corresponding to the color
+
+        int remaining = 16 - RemovedPiece.getInstance().getRemovedPiecesNumber(color);
         return remaining;
     }
 
@@ -216,7 +205,7 @@ public class ChessBoard {
         List<IChess.ChessPosition> list = typeTable[p.y][p.x].getMove().getPieceMoves(p, this);
         List<IChess.ChessPosition> listFinal = new ArrayList<>();
 
-        // the pattern move of pieces have to include all ways they could go, and here we limit
+        // the pattern move of pieces have to include all ways they could go, and here we limit them
         for (int i=0; i<list.size(); i++) {
             if (list.get(i).y >= 0 && list.get(i).y < 8 && list.get(i).x >= 0 && list.get(i).x < 8) {
 
@@ -226,7 +215,6 @@ public class ChessBoard {
                 }
                 else if (typeTable[list.get(i).y][list.get(i).x].getColor()!=typeTable[p.y][p.x].getColor()) {
                     listFinal.add(list.get(i));
-
                 }
             }
         }
@@ -235,7 +223,7 @@ public class ChessBoard {
 
 
     /**
-     * This method is used to give the possible moves for a piece after checking if will
+     * This method is used to give the possible moves for a piece after checking if it will
      * threaten the king, then will limit the possible moves
      * @param p ChessPosition : the position of the piece
      * @return  List : list of possible moves
@@ -245,24 +233,42 @@ public class ChessBoard {
         List<IChess.ChessPosition> listFinal = new ArrayList<>();
         IChess.ChessPosition p1;
 
+        playerColor = typeTable[p.y][p.x].getColor();
         for (int i=0; i<list.size(); i++){
             try {
                 p1 = list.get(i);
-                //moveForKing(p, p1, listFinal);
-                Piece save = typeTable[p1.y][p1.x];
+                if (moveTest(p, p1)){
+                    listFinal.add(p1);
+
+                }
+                /*Piece save = typeTable[p1.y][p1.x];
                 typeTable[p1.y][p1.x] = typeTable[p.y][p.x];
                 typeTable[p.y][p.x] = null;
                 if (getKingState(typeTable[p1.y][p1.x].getColor())== IChess.ChessKingState.KING_SAFE){
                     listFinal.add(p1);
                 }
                 typeTable[p.y][p.x] = typeTable[p1.y][p1.x];
-                typeTable[p1.y][p1.x] = save;
+                typeTable[p1.y][p1.x] = save;*/
 
             }catch (Exception e){
 
             }
         }
         return listFinal;
+    }
+
+    public boolean moveTest(IChess.ChessPosition p, IChess.ChessPosition p1){
+        Piece save = typeTable[p1.y][p1.x];
+        boolean isMovePossible= false;
+        typeTable[p1.y][p1.x] = typeTable[p.y][p.x];
+        typeTable[p.y][p.x] = null;
+        if (getKingState(typeTable[p1.y][p1.x].getColor())== IChess.ChessKingState.KING_SAFE){
+            isMovePossible= true;
+        }
+        typeTable[p.y][p.x] = typeTable[p1.y][p1.x];
+        typeTable[p1.y][p1.x] = save;
+
+        return isMovePossible;
     }
 
 
@@ -281,10 +287,10 @@ public class ChessBoard {
 
         }else {
             if (typeTable[newP.y][newP.x].getColor()== IChess.ChessColor.CLR_WHITE){
-                listTypeWhite.add(typeTable[newP.y][newP.x].getType());
+                RemovedPiece.getInstance().addWhite(typeTable[newP.y][newP.x].getType());
             }
             else {
-                listTypeBlack.add(typeTable[newP.y][newP.x].getType());
+                RemovedPiece.getInstance().addBlack(typeTable[newP.y][newP.x].getType());
             }
             listOfRemovedColor.add(typeTable[newP.y][newP.x].getColor());
         }
@@ -295,6 +301,7 @@ public class ChessBoard {
         showTable();
 
         typeTable[newP.y][newP.x].setAlreadyMove(true);
+
 
         castling(oldP, newP, isMoved);
         promote(newP.y, newP.x);
@@ -337,19 +344,7 @@ public class ChessBoard {
         }
     }
 
-    /**
-     * This method is used to get the removed piece List , used to displayed the pieces in game
-     * @param color ChessColor : the color of the player from which we want the removed pieces
-     * @return      List : list of ChessType containing all the pieces type already removed
-     */
-    public List<IChess.ChessType> getRemovedPieces(IChess.ChessColor color){
-        if (color== IChess.ChessColor.CLR_WHITE){
-            return listTypeWhite;
-        }
-        else {
-            return listTypeBlack;
-        }
-    }
+
 
 
     /**
@@ -364,10 +359,10 @@ public class ChessBoard {
             listOfTable.remove(listOfTable.size() - 1);
 
             if (listOfRemovedColor.get(listOfRemovedColor.size()-1)== IChess.ChessColor.CLR_WHITE){
-                listTypeWhite.remove(listTypeWhite.size()-1);
+                RemovedPiece.getInstance().removedWhite();
             }
             else if (listOfRemovedColor.get(listOfRemovedColor.size()-1)== IChess.ChessColor.CLR_BLACK){
-                listTypeBlack.remove(listTypeBlack.size()-1);
+                RemovedPiece.getInstance().removedBlack();
             }
             listOfRemovedColor.remove(listOfRemovedColor.size()-1);
 
@@ -379,7 +374,7 @@ public class ChessBoard {
 
     /**
      * This method is used to write a new Piece[][], with all pieces
-     * it was needed to have a save at a t time of the Piece[][] (typeTable)
+     * needed to have a save at a t time of the Piece[][] (typeTable)
      * @return  Piece[][] : the table containing piece
      */
     public Piece[][] writeTableSave(){

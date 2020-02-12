@@ -15,6 +15,11 @@ public class ChessModel2 implements IChess {
     private  Piece[][] typeTable;
     private ChessBoard board = new ChessBoard();
 
+    private static IChess.ChessKingState WhiteKingStatus;
+    private static IChess.ChessKingState BlackKingStatus;
+
+
+
 
     /**
      * This method is used as a design singleton
@@ -27,6 +32,15 @@ public class ChessModel2 implements IChess {
         return ChessModel2.instance;
     }
 
+
+    public static ChessKingState getKingStatus(ChessColor color) {
+        if (color==ChessColor.CLR_WHITE) {
+            return WhiteKingStatus;
+        }
+        else{
+            return BlackKingStatus;
+        }
+    }
 
     /**
      * This method is used to reinitialise the board, we reset the piece position
@@ -107,13 +121,19 @@ public class ChessModel2 implements IChess {
      */
     @Override
     public ChessKingState getKingState(ChessColor color) {
+        if (color== IChess.ChessColor.CLR_WHITE){
+            WhiteKingStatus= board.getKingState(color);
+        }
+        if (color== IChess.ChessColor.CLR_BLACK){
+            BlackKingStatus= board.getKingState(color);
+        }
         return board.getKingState(color);
     }
 
 
     @Override
     public List<ChessType> getRemovedPieces(ChessColor color) {
-        return board.getRemovedPieces(color);
+        return RemovedPiece.getInstance().getRemovedPieces(color);
     }
 
 

@@ -31,18 +31,20 @@ public class King implements IMove{
         }
 
 
-        //great roque
+
+
+        //great roque, for the left Rook
         try{
-            if (!board.getPiece(p.y, p.x).isAlreadyMove()  && !board.getPiece(p.y, p.x-4).isAlreadyMove() &&board.getPiece(p.y, p.x-4).getType()== IChess.ChessType.TYP_ROOK){
-                if (board.getPiece(p.y, p.x-1)==null && board.getPiece(p.y, p.x-2)==null && board.getPiece(p.y, p.x-3)==null){
-                    list.add(new IChess.ChessPosition(p.x-2, p.y)) ;
+            if (ChessModel2.getKingStatus(board.getPieceColor(p)) == IChess.ChessKingState.KING_SAFE && !board.getPiece(p.y, p.x).isAlreadyMove()  && !board.getPiece(p.y, p.x-4).isAlreadyMove() && board.getPiece(p.y, p.x-4).getType()== IChess.ChessType.TYP_ROOK){
+                if (board.getPiece(p.y, p.x-1)==null && board.moveTest(p, new IChess.ChessPosition(p.x-1, p.y)) && board.getPiece(p.y, p.x-2)==null && board.getPiece(p.y, p.x-3)==null){
+                    list.add(new IChess.ChessPosition(p.x - 2, p.y));
                 }
             }
         }catch (Exception e ){
         }
         try{
-            if (!board.getPiece(p.y, p.x).isAlreadyMove()  && !board.getPiece(p.y, p.x+3).isAlreadyMove() && board.getPiece(p.y, p.x+3).getType()== IChess.ChessType.TYP_ROOK){
-                if (board.getPiece(p.y, p.x+1)==null && board.getPiece(p.y, p.x+2)==null){
+            if (ChessModel2.getKingStatus(board.getPieceColor(p)) == IChess.ChessKingState.KING_SAFE && !board.getPiece(p.y, p.x).isAlreadyMove()  && !board.getPiece(p.y, p.x+3).isAlreadyMove() && board.getPiece(p.y, p.x+3).getType()== IChess.ChessType.TYP_ROOK){
+                if (board.getPiece(p.y, p.x+1)==null && board.getPiece(p.y, p.x+2)==null && board.moveTest(p, new IChess.ChessPosition(p.x+1, p.y)) ){
                     list.add(new IChess.ChessPosition(p.x+2, p.y)) ;
                 }
             }
@@ -52,11 +54,4 @@ public class King implements IMove{
 
         return list;
     }
-
-    //roi n'apas bougé, tour non plus
-    //roi pas deja en echec
-    //roi jamais en echec sur les cases traversé
-    //vide entre tour et roi
-
-    // le roi avance 2 case vers tour, la tour une case plus au centre
 }
