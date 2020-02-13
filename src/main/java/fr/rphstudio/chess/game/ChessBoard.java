@@ -16,6 +16,7 @@ public class ChessBoard {
     private List<Object> listOfRemovedColor;
     private IChess.ChessColor playerColor;
     private List<IChess.ChessPosition> listPawnMove;
+    private IChess.ChessColor currentPlayerColor;
 
 
 
@@ -277,6 +278,7 @@ public class ChessBoard {
     public void movePiece(IChess.ChessPosition oldP, IChess.ChessPosition newP){
         listOfTable.add(writeTableSave());
         boolean isMoved = typeTable[oldP.y][oldP.x].isAlreadyMove();
+        currentPlayerColor = typeTable[oldP.y][oldP.x].getColor();
 
 
         if (typeTable[newP.y][newP.x] == null){
@@ -292,6 +294,13 @@ public class ChessBoard {
             listOfRemovedColor.add(typeTable[newP.y][newP.x].getColor());
         }
 
+
+        if (currentPlayerColor== IChess.ChessColor.CLR_WHITE){
+            Chrono.getInstance().addWhiteTime();
+        }
+        else {
+            Chrono.getInstance().addBlackTime();
+        }
 
         typeTable[newP.y][newP.x] = typeTable[oldP.y][oldP.x];
         typeTable[oldP.y][oldP.x] = null;
@@ -396,6 +405,13 @@ public class ChessBoard {
                 RemovedPiece.getInstance().removedBlack();
             }
             listOfRemovedColor.remove(listOfRemovedColor.size()-1);
+
+            if (currentPlayerColor== IChess.ChessColor.CLR_WHITE){
+                Chrono.getInstance().deleteWhiteTime();
+                System.out.println("fezokfozeinfozinfozeifnoziefnozienfoziefnozienfoziefn");            }
+            else {
+                Chrono.getInstance().deleteBlackTime();
+            }
 
             listPawnMove.remove(listPawnMove.size()-1);
             return true;

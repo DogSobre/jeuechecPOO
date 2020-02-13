@@ -47,6 +47,7 @@ public class ChessModel2 implements IChess {
     @Override
     public void reinit() {
         typeTable = board.reinitialise();
+        Chrono.getInstance().reset();
     }
 
 
@@ -145,6 +146,18 @@ public class ChessModel2 implements IChess {
 
     @Override
     public long getPlayerDuration(ChessColor color, boolean isPlaying) {
-        return 0;
+        Chrono chrono = Chrono.getInstance();
+        chrono.updateChrono(color, isPlaying);
+
+        if (color == IChess.ChessColor.CLR_WHITE && isPlaying){
+            System.out.println(color);
+            return chrono.whiteTime();
+        }else if (color == ChessColor.CLR_BLACK && isPlaying){
+            System.out.println(color);
+            return chrono.blackTime();
+        }
+        else {
+            return 0;
+        }
     }
 }
