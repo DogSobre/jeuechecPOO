@@ -295,13 +295,15 @@ public class ChessBoard {
         }
 
 
+        /*
         if (currentPlayerColor== IChess.ChessColor.CLR_WHITE){
-            Chrono.getInstance().addWhiteTime();
+            Chronometer.getInstance().addWhiteTime();
         }
         else {
-            Chrono.getInstance().addBlackTime();
-        }
+            Chronometer.getInstance().addBlackTime();
+        }*/
 
+        Chronometer.getInstance().addCurrentTime();
         typeTable[newP.y][newP.x] = typeTable[oldP.y][oldP.x];
         typeTable[oldP.y][oldP.x] = null;
         showTable();
@@ -406,12 +408,15 @@ public class ChessBoard {
             }
             listOfRemovedColor.remove(listOfRemovedColor.size()-1);
 
+            /*
             if (currentPlayerColor== IChess.ChessColor.CLR_WHITE){
-                Chrono.getInstance().deleteWhiteTime();
+                Chronometer.getInstance().deleteWhiteTime();
                 System.out.println("fezokfozeinfozinfozeifnoziefnozienfoziefnozienfoziefn");            }
             else {
-                Chrono.getInstance().deleteBlackTime();
-            }
+                Chronometer.getInstance().deleteBlackTime();
+            }*/
+
+            Chronometer.getInstance().deleteCurrentTime(currentPlayerColor);
 
             listPawnMove.remove(listPawnMove.size()-1);
             return true;

@@ -34,8 +34,5 @@ public class Knight implements IMove {
         list.add(new IChess.ChessPosition(p.x+2, p.y+1)) ;
         list.add(new IChess.ChessPosition(p.x-2, p.y+1)) ;
 
-        for (int i =0; i<list.size(); i++){
-            //System.out.println("Knight pos: " +list.get(i).y + "." + list.get(i).x);
-        }
         return list;    }
 }

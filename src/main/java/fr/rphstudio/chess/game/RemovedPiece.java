@@ -50,6 +50,13 @@ public class RemovedPiece {
     }
 
 
+    /**
+     * This method is used to get number of removed piece depending of the color given in parameter.
+     * It used to avoid to go through all the table to count all the piece on board
+     * for a specific color, so two loop less.
+     * @param color     ChessColor : the player's color
+     * @return          int : the number
+     */
     public int getRemovedPiecesNumber(IChess.ChessColor color){
         if (color== IChess.ChessColor.CLR_WHITE){
             return listTypeWhite.size();
@@ -60,20 +67,36 @@ public class RemovedPiece {
     }
 
 
+    /**
+     * This method is used to add a black piece's Type to the corresponding list
+     * @param type  ChessTyp : piece's type
+     */
     public void addBlack(IChess.ChessType type){
         listTypeBlack.add(type);
     }
 
+
+    /**
+     * This method is used to add a white piece's Type to the corresponding list
+     * @param type  ChessTyp : piece's type
+     */
     public void addWhite(IChess.ChessType type){
         listTypeWhite.add(type);
     }
 
+
+    /**
+     * This method is used to removed the last black piece's Type of the corresponding list
+     */
     public void removedBlack(){
         listTypeBlack.remove(listTypeBlack.size()-1);
     }
 
+
+    /**
+     * This method is used to removed the last black piece's Type of the corresponding list
+     */
     public void removedWhite(){
         listTypeWhite.remove(listTypeWhite.size()-1);
     }
-
 }

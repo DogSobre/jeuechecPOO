@@ -31,9 +31,7 @@ public class King implements IMove{
         }
 
 
-
-
-        //great roque, for the left Rook
+        //great castling, for the left Rook
         try{
             if (ChessModel2.getKingStatus(board.getPieceColor(p)) == IChess.ChessKingState.KING_SAFE && !board.getPiece(p.y, p.x).isAlreadyMove()  && !board.getPiece(p.y, p.x-4).isAlreadyMove() && board.getPiece(p.y, p.x-4).getType()== IChess.ChessType.TYP_ROOK){
                 if (board.getPiece(p.y, p.x-1)==null && board.moveTest(p, new IChess.ChessPosition(p.x-1, p.y)) && board.getPiece(p.y, p.x-2)==null && board.getPiece(p.y, p.x-3)==null){
@@ -42,6 +40,7 @@ public class King implements IMove{
             }
         }catch (Exception e ){
         }
+        //little castling, for the right Rook
         try{
             if (ChessModel2.getKingStatus(board.getPieceColor(p)) == IChess.ChessKingState.KING_SAFE && !board.getPiece(p.y, p.x).isAlreadyMove()  && !board.getPiece(p.y, p.x+3).isAlreadyMove() && board.getPiece(p.y, p.x+3).getType()== IChess.ChessType.TYP_ROOK){
                 if (board.getPiece(p.y, p.x+1)==null && board.getPiece(p.y, p.x+2)==null && board.moveTest(p, new IChess.ChessPosition(p.x+1, p.y)) ){
@@ -50,7 +49,6 @@ public class King implements IMove{
             }
         }catch (Exception e ){
         }
-
 
         return list;
     }

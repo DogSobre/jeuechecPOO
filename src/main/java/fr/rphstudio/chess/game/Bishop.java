@@ -36,8 +36,8 @@ public class Bishop implements IMove {
      * @param p         ChessPosition : the position of the piece
      * @param board     ChessBoard : the chess board, used to know the environment of the piece
      * @param list      List : possible move's List , containing ChessPosition
-     * @param signX    int : used for the column, could be -1, +1 . if 1, we adding a column
-     * @param signY    int : used for the row, could be -1, +1.     if 0, we adding a row
+     * @param signX     int : used for the column, could be -1, +1 . if 1, we go one column right
+     * @param signY     int : used for the row, could be -1, +1.     if 1, we go one row down
      */
     private void calculateDiagonal(IChess.ChessPosition p, ChessBoard board, List<IChess.ChessPosition> list, int signX, int signY) {
         for (int i=1; i<8; i++){
