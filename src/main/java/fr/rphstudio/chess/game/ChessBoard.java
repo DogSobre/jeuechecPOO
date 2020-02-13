@@ -14,9 +14,11 @@ public class ChessBoard {
     private Piece[][] typeTable;
     private List<Piece[][]> listOfTable;
     private List<Object> listOfRemovedColor;
-    private IChess.ChessKingState WhiteKingStatus;
-    private IChess.ChessKingState BlackKingStatus;
     private IChess.ChessColor playerColor;
+
+    private IChess.ChessColor currentPlayerColor;
+
+
 
     /**
      * This is the ChessBoard constructor
@@ -118,14 +120,6 @@ public class ChessBoard {
     }
 
 
-    public IChess.ChessKingState getKingStatus(IChess.ChessColor color){
-        if (color == IChess.ChessColor.CLR_WHITE){
-            return WhiteKingStatus;
-        }
-        else {
-            return BlackKingStatus;
-        }
-    }
 
 
     /**
@@ -137,6 +131,8 @@ public class ChessBoard {
         RemovedPiece.getInstance().reinitialiseList();
         listOfTable = new ArrayList<>();
         listOfRemovedColor = new ArrayList<>();
+
+
 
         // pawn set-up
         for (int col=0; col<typeTable.length; col++){
@@ -167,7 +163,6 @@ public class ChessBoard {
                 typeTable[7][col] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_KING, new King());
             }
         }
-
         return typeTable;
     }
 
@@ -281,6 +276,7 @@ public class ChessBoard {
     public void movePiece(IChess.ChessPosition oldP, IChess.ChessPosition newP){
         listOfTable.add(writeTableSave());
         boolean isMoved = typeTable[oldP.y][oldP.x].isAlreadyMove();
+        currentPlayerColor = typeTable[oldP.y][oldP.x].getColor();
 
         if (typeTable[newP.y][newP.x] == null){
             listOfRemovedColor.add(typeTable[newP.y][newP.x]);
@@ -295,6 +291,12 @@ public class ChessBoard {
             listOfRemovedColor.add(typeTable[newP.y][newP.x].getColor());
         }
 
+        if (currentPlayerColor== IChess.ChessColor.CLR_WHITE){
+            Chrono.getInstance().addWhiteTime();
+        }
+        else {
+            Chrono.getInstance().addBlackTime();
+        }
 
         typeTable[newP.y][newP.x] = typeTable[oldP.y][oldP.x];
         typeTable[oldP.y][oldP.x] = null;
@@ -364,6 +366,15 @@ public class ChessBoard {
             else if (listOfRemovedColor.get(listOfRemovedColor.size()-1)== IChess.ChessColor.CLR_BLACK){
                 RemovedPiece.getInstance().removedBlack();
             }
+
+
+            if (currentPlayerColor== IChess.ChessColor.CLR_WHITE){
+                Chrono.getInstance().deleteWhiteTime();
+                System.out.println("fezokfozeinfozinfozeifnoziefnozienfoziefnozienfoziefn");            }
+            else {
+                Chrono.getInstance().deleteBlackTime();
+            }
+
             listOfRemovedColor.remove(listOfRemovedColor.size()-1);
 
             return true;

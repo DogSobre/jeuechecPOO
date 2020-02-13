@@ -11,22 +11,21 @@ import java.util.List;
  * This class is used as an interface between the GUI and the Chessboard managing
  */
 public class ChessModel2 implements IChess {
-    private static ChessModel2 instance ;
-    private  Piece[][] typeTable;
+    private static ChessModel2 instance;
+    private Piece[][] typeTable;
     private ChessBoard board = new ChessBoard();
 
     private static IChess.ChessKingState WhiteKingStatus;
     private static IChess.ChessKingState BlackKingStatus;
 
 
-
-
     /**
      * This method is used as a design singleton
+     *
      * @return
      */
     public static IChess getInstance() {
-        if(ChessModel2.instance==null){
+        if (ChessModel2.instance == null) {
             ChessModel2.instance = new ChessModel2();
         }
         return ChessModel2.instance;
@@ -34,10 +33,9 @@ public class ChessModel2 implements IChess {
 
 
     public static ChessKingState getKingStatus(ChessColor color) {
-        if (color==ChessColor.CLR_WHITE) {
+        if (color == ChessColor.CLR_WHITE) {
             return WhiteKingStatus;
-        }
-        else{
+        } else {
             return BlackKingStatus;
         }
     }
@@ -47,27 +45,30 @@ public class ChessModel2 implements IChess {
      */
     @Override
     public void reinit() {
+        Chrono.getInstance().reset();
         typeTable = board.reinitialise();
     }
 
 
     /**
      * This method is used to get the piece's type at a defined position
+     *
      * @param p x/y position on the board where we want to get the piece type.
-     * @return  ChessType : the ChessType of the piece
+     * @return ChessType : the ChessType of the piece
      * @throws EmptyCellException
      * @throws OutOfBoardException
      */
     @Override
     public ChessType getPieceType(ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        return  board.getPieceType(p);
+        return board.getPieceType(p);
     }
 
 
     /**
      * This method is used to get the piece's color at a defined position
+     *
      * @param p x/y position on the board where we want to get the piece color.
-     * @return  ChessColor : the color of the piece
+     * @return ChessColor : the color of the piece
      * @throws EmptyCellException
      * @throws OutOfBoardException
      */
@@ -79,8 +80,9 @@ public class ChessModel2 implements IChess {
 
     /**
      * This method is used to get the remaining piece's number
+     *
      * @param color the requested color of the pieces to count.
-     * @return  int : the remaining piece's number
+     * @return int : the remaining piece's number
      */
     @Override
     public int getNbRemainingPieces(ChessColor color) {
@@ -90,6 +92,7 @@ public class ChessModel2 implements IChess {
 
     /**
      * This method is used to get the piece's possible move for a piece at a defined position
+     *
      * @param p requested piece position.
      * @return List : list of the piece's possible move
      */
@@ -97,7 +100,7 @@ public class ChessModel2 implements IChess {
     public List<ChessPosition> getPieceMoves(ChessPosition p) {
         try {
             return board.testIfWillThreaten(p);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ArrayList<>();
         }
     }
@@ -105,6 +108,7 @@ public class ChessModel2 implements IChess {
 
     /**
      * This method is used to move a piece at a defined position to a new position
+     *
      * @param p0 source position on the board.
      * @param p1 destination position on the board.
      */
@@ -116,16 +120,17 @@ public class ChessModel2 implements IChess {
 
     /**
      * This method is used to get the King state depending of the given color
+     *
      * @param color the requested king color.
      * @return ChessKingState :
      */
     @Override
     public ChessKingState getKingState(ChessColor color) {
-        if (color== IChess.ChessColor.CLR_WHITE){
-            WhiteKingStatus= board.getKingState(color);
+        if (color == IChess.ChessColor.CLR_WHITE) {
+            WhiteKingStatus = board.getKingState(color);
         }
-        if (color== IChess.ChessColor.CLR_BLACK){
-            BlackKingStatus= board.getKingState(color);
+        if (color == IChess.ChessColor.CLR_BLACK) {
+            BlackKingStatus = board.getKingState(color);
         }
         return board.getKingState(color);
     }
@@ -143,9 +148,25 @@ public class ChessModel2 implements IChess {
 
     }
 
-
     @Override
     public long getPlayerDuration(ChessColor color, boolean isPlaying) {
-        return 0;
+        Chrono chrono = Chrono.getInstance();
+        chrono.updateChrono(color, isPlaying);
+
+        //return chrono.Chrono(color, isPlaying) ;
+
+        if (color == IChess.ChessColor.CLR_WHITE && isPlaying){
+            System.out.println(color);
+            //return chrono.Chrono(color, isPlaying);
+            return chrono.whiteTime();
+        }else if (color == ChessColor.CLR_BLACK && isPlaying){
+            System.out.println(color);
+            return chrono.blackTime();
+            //return chrono.Chrono(color, isPlaying);
+        }
+        else {
+            return 0;
+        }
     }
+
 }
