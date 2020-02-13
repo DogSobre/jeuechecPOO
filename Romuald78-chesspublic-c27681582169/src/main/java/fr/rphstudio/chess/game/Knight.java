@@ -1,13 +1,24 @@
 package fr.rphstudio.chess.game;
 
 import fr.rphstudio.chess.interf.IChess;
-import fr.rphstudio.chess.interf.IMove;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * This class is used to have a pattern of all the possible movement for a Knight
+ */
 public class Knight implements IMove {
 
 
+    /**
+     * This method is used to get the Piece's possible moves, depending of it's position
+     * and the pieces in the board (needed for Pawn)
+     * @param p     ChessPosition : the position of the piece
+     * @param board ChessBoard : the chess board, useful to know the piece environment
+     * @return      List : ChessPosition's list
+     */
+    @Override
     public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, ChessBoard board) {
         List<IChess.ChessPosition> list = new ArrayList<>();
 
@@ -26,6 +37,5 @@ public class Knight implements IMove {
         for (int i =0; i<list.size(); i++){
             //System.out.println("Knight pos: " +list.get(i).y + "." + list.get(i).x);
         }
-        return list;
-    }
+        return list;    }
 }

@@ -1,16 +1,16 @@
 package fr.rphstudio.chess.game;
 
 import fr.rphstudio.chess.interf.IChess;
-import fr.rphstudio.chess.interf.IMove;
-public class Piece {
 
-    private IChess.ChessColor color;
+public class Piece {
+    private IChess.ChessColor color ;
     private IChess.ChessType type;
     private IMove move;
     private boolean alreadyMove = false;
 
+
     public Piece(IChess.ChessColor color, IChess.ChessType type, IMove move){
-        this.color = color;
+        this.color=color;
         this.type = type;
         this.move = move;
     }
@@ -23,7 +23,7 @@ public class Piece {
         return type;
     }
 
-    public IMove getMove(){
+    public IMove getMove() {
         return move;
     }
 
