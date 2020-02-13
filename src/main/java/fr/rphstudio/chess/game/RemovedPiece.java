@@ -1,18 +1,22 @@
 package fr.rphstudio.chess.game;
 
 import fr.rphstudio.chess.interf.IChess;
-
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * this class is used to have the information about removed pieces from each player
+ */
 public class RemovedPiece {
     private static RemovedPiece instance ;
     private List<IChess.ChessType> listTypeBlack= new ArrayList<>();
     private List<IChess.ChessType> listTypeWhite = new ArrayList<>();
 
+
     /**
-     * This method is used as a design singleton
-     * @return
+     * This method is used as a design pattern singleton
+     * @return  RemovedPiece : an unique instance of RemovedPiece
      */
     public static RemovedPiece getInstance() {
         if(RemovedPiece.instance==null){
@@ -22,6 +26,9 @@ public class RemovedPiece {
     }
 
 
+    /**
+     * This method is used to reinitialise the removed piece list for each player
+     */
     public void reinitialiseList(){
         listTypeBlack = new ArrayList<>();
         listTypeWhite = new ArrayList<>();

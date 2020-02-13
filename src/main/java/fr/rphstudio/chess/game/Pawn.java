@@ -13,9 +13,9 @@ public class Pawn implements IMove {
 
     /**
      * This method is used to get the Piece's possible moves, depending of it's position
-     * and the pieces in the board (needed for Pawn)
+     * and the pieces on the board (needed for Pawn)
      * @param p     ChessPosition : the position of the piece
-     * @param board ChessBoard : the chess board, useful to know the piece environment
+     * @param board ChessBoard : the chess board, used to know the piece environment
      * @return      List : ChessPosition's list
      */
     @Override
@@ -57,7 +57,13 @@ public class Pawn implements IMove {
                     int x = board.getListPawnMove().get(board.getListPawnMove().size()-1).x;
 
                     if (piece.getColor() != board.getPiece(y, x).getColor() && rowNeed==p.y) {
-                        list.add(new IChess.ChessPosition(x, rowMove));
+                        if (x==p.x-1){
+                            list.add(new IChess.ChessPosition(x, rowMove));
+                        }
+                        if (x==p.x+1){
+                            list.add(new IChess.ChessPosition(x, rowMove));
+                        }
+                        //list.add(new IChess.ChessPosition(x, rowMove));
                     }
 
                 } catch (Exception e) {

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class is used as an interface between the GUI and the Chessboard managing
+ * This class is used as an interface between the GUI,  the Chessboard managing, and the chronometer
  */
 public class ChessModel2 implements IChess {
     private static ChessModel2 instance ;
@@ -21,17 +21,23 @@ public class ChessModel2 implements IChess {
 
 
     /**
-     * This method is used as a design singleton
-     * @return
+     * This method is used as a design pattern singleton
+     * @return  Ichess : an unique instance of an IChess
      */
     public static IChess getInstance() {
         if(ChessModel2.instance==null){
             ChessModel2.instance = new ChessModel2();
         }
+
         return ChessModel2.instance;
     }
 
 
+    /**
+     * This method is used to get at each time the current status king without checking all the table
+     * @param color ChessColor : king's color from whom we want to know the status
+     * @return      ChessKingState : the King status
+     */
     public static ChessKingState getKingStatus(ChessColor color) {
         if (color==ChessColor.CLR_WHITE) {
             return WhiteKingStatus;
@@ -39,10 +45,11 @@ public class ChessModel2 implements IChess {
         else{
             return BlackKingStatus;
         }
+
     }
 
     /**
-     * This method is used to reinitialise the board, we reset the piece position
+     * This method is used to reinitialise the game, we reset the piece position and chronometer
      */
     @Override
     public void reinit() {
@@ -117,7 +124,7 @@ public class ChessModel2 implements IChess {
     /**
      * This method is used to get the King state depending of the given color
      * @param color the requested king color.
-     * @return ChessKingState :
+     * @return ChessKingState : the King status
      */
     @Override
     public ChessKingState getKingState(ChessColor color) {
@@ -131,12 +138,21 @@ public class ChessModel2 implements IChess {
     }
 
 
+    /**
+     * This method is used to get the removed Pieces depending of the player's color
+     * @param color color of the removed pieces
+     * @return List : piece's type list
+     */
     @Override
     public List<ChessType> getRemovedPieces(ChessColor color) {
         return RemovedPiece.getInstance().getRemovedPieces(color);
     }
 
 
+    /**
+     * This method is used to undo the last move
+     * @return  boolean : true if we allow the undo action
+     */
     @Override
     public boolean undoLastMove() {
         return board.undoMove();
@@ -144,6 +160,12 @@ public class ChessModel2 implements IChess {
     }
 
 
+    /**
+     * This method is used to get player duration, that will be display for each player
+     * @param color The color of the player from whom we want to get the current duration.
+     * @param isPlaying Indicates if the player color is the one currently playing.
+     * @return
+     */
     @Override
     public long getPlayerDuration(ChessColor color, boolean isPlaying) {
         Chrono chrono = Chrono.getInstance();
