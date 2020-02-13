@@ -21,7 +21,6 @@ public class Pawn implements IMove {
     @Override
     public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, ChessBoard board) {
         List<IChess.ChessPosition> list = new ArrayList<>();
-        //need to test if the piece isn't null
 
         Piece piece = board.getPiece(p.y, p.x);
         if (piece.getColor()== IChess.ChessColor.CLR_WHITE && !piece.isAlreadyMove()){
@@ -80,13 +79,12 @@ public class Pawn implements IMove {
      * @param p         ChessPosition : piece's position
      * @param board     ChessBoard : chessBoard , needed to know the piece environment
      * @param list      List : the allowed piece's move
-     * @param signeY    int : the sign of row movement, necessary to check if the first cell is free
+     * @param signY    int : the sign of row movement, necessary to check if the first cell is free
      */
-    private void calculateFirstMove(IChess.ChessPosition p, ChessBoard board, List<IChess.ChessPosition> list, int signeY){
+    private void calculateFirstMove(IChess.ChessPosition p, ChessBoard board, List<IChess.ChessPosition> list, int signY){
         try{
-            if (board.getPiece(p.y+1*signeY, p.x)==null && board.getPiece(p.y+2*signeY, p.x)==null){
-                list.add(new IChess.ChessPosition(p.x, p.y+2*signeY)) ;
-
+            if (board.getPiece(p.y+1*signY, p.x)==null && board.getPiece(p.y+2*signY, p.x)==null){
+                list.add(new IChess.ChessPosition(p.x, p.y+2*signY)) ;
             }
         }catch (Exception e){
         }

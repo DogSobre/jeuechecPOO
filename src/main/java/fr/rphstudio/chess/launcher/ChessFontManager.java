@@ -86,6 +86,9 @@ public class ChessFontManager
     /**
      * Constructor of the font manager.
      * It just loads a spritesheet into the memory, waiting for the public methods calls to use it.
+     * @param imgPath   String : filePath of the image
+     * @param sizeX     int : X size of the image
+     * @param sizeY     int : Y size of the image
      */
     public ChessFontManager(String imgPath, int sizeX, int sizeY)
     {

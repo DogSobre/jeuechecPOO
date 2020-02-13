@@ -5,19 +5,15 @@ import fr.rphstudio.chess.interf.IChess;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * This class is used to manage a chronometer and get the game duration for each player
  */
 public class Chronometer {
-
     private long whiteTime=0;
     private long blackTime=0;
-    private long currentGameTime;
     private static Chronometer instance;
     private long gameStartTime=System.currentTimeMillis();
-
-    private List<Long> blackTimesList;
-    private List<Long> whiteTimesList;
     private  List<Long> currentTimesList;
 
 
@@ -39,12 +35,12 @@ public class Chronometer {
      * @param isPlaying     boolean : true if the player is playing
      */
     public void updateChronometer(IChess.ChessColor color, boolean isPlaying){
-        this.currentGameTime=System.currentTimeMillis();
+        long currentGameTime=System.currentTimeMillis();
         if (color == IChess.ChessColor.CLR_WHITE & isPlaying){
-            whiteTime = this.currentGameTime - gameStartTime - blackTime;
+            whiteTime = currentGameTime - gameStartTime - blackTime;
         }
         else if (color == IChess.ChessColor.CLR_BLACK & isPlaying){
-            blackTime = this.currentGameTime -gameStartTime - whiteTime ;
+            blackTime = currentGameTime -gameStartTime - whiteTime ;
         }
     }
 
@@ -56,26 +52,22 @@ public class Chronometer {
         whiteTime = 0;
         blackTime = 0;
         gameStartTime=System.currentTimeMillis();
-        blackTimesList = new ArrayList<>();
-        whiteTimesList = new ArrayList<>();
         currentTimesList = new ArrayList<>();
     }
 
 
-
+    /**
+     * This method is used to get each player duration, that will be display and will
+     * ask an update of the time for the playing player
+     * @param color     ChessColor : player's color
+     * @param isPlaying boolean : true if this is the player who is playing
+     * @return          long : a long value used to display the duration of the player
+     */
     public long getPlayerDuration(IChess.ChessColor color, boolean isPlaying) {
         Chronometer chronometer = Chronometer.getInstance();
         chronometer.updateChronometer(color, isPlaying);
 
-        if (color == IChess.ChessColor.CLR_WHITE && isPlaying){
-            System.out.println(color);
-            return whiteTime;
-        }
-        else if (color == IChess.ChessColor.CLR_BLACK && isPlaying){
-            System.out.println(color);
-            return blackTime;
-        }
-        else if (color == IChess.ChessColor.CLR_WHITE && !isPlaying){
+        if (color == IChess.ChessColor.CLR_WHITE ){
             return whiteTime;
         }
         else {
@@ -85,78 +77,44 @@ public class Chronometer {
 
 
     /**
-     * This method is used to return the game duration of the white player
-     * @return  long : white player's duration
+     * This method is used to add the the current time on a list of time ,
+     * this method should be call when a piece do a move
      */
-    public long whiteTime() {
-        return whiteTime;
-    }
-
-
-    /**
-     * This method is used to return the game duration of the black player
-     * @return  long : black player's duration
-     */
-    public long blackTime() {
-        return blackTime;
-    }
-
-
-    /**
-     * This method is used to add
-     */
-    public void addWhiteTime(){
-        whiteTimesList.add(System.currentTimeMillis());
-    }
-    public void addBlackTime(){
-        blackTimesList.add(System.currentTimeMillis());
-    }
-
-
-
-
     public void addCurrentTime(){
         currentTimesList.add(System.currentTimeMillis());
     }
 
-    public void deleteCurrentTime(IChess.ChessColor color){
-        if (currentTimesList.size()>1){
-            long time = currentTimesList.get(currentTimesList.size()-1);
 
+    /**
+     * This method is used to delete the last saved time from the list of currentTimesList
+     * and set the time of each player when an undo action is performed
+     * @param color ChessColor : player's color
+     */
+    public void deleteCurrentTime(IChess.ChessColor color){
+        if (currentTimesList.size()>0){
+            long time = currentTimesList.get(currentTimesList.size()-1);
             currentTimesList.remove(currentTimesList.size()-1);
 
             gameStartTime+= (System.currentTimeMillis() - time);
             if (color == IChess.ChessColor.CLR_WHITE){
-                whiteTime -= ( System.currentTimeMillis() - time);
+                //whiteTime = ( System.currentTimeMillis() - time -  (blackTime-time));
+                whiteTime = time -  gameStartTime - (blackTime );
+
+                //experimental
+                /*if (currentTimesList.size()-2>=2){
+                    blackTime-= (System.currentTimeMillis() - currentTimesList.get(currentTimesList.size()-2));
+                }*/
+                //blackTime-= System.currentTimeMillis() - currentTimesList.get(currentTimesList.size()-2);
             }
             else {
-                blackTime -= (System.currentTimeMillis() - time);
+                //blackTime = (System.currentTimeMillis() - time  -(whiteTime));
+                blackTime = time  - gameStartTime - whiteTime;
+
+                //experimental
+                /*if (currentTimesList.size()-2>=2){
+                    whiteTime-= (System.currentTimeMillis() - currentTimesList.get(currentTimesList.size()-2));
+                }*/
             }
-            System.out.println("rxxyfxfxgfgfxgfxgx");
-        }
-    }
-
-
-
-    public void deleteWhiteTime(){
-        if (whiteTimesList.size()>1){
-            whiteTimesList.remove(whiteTimesList.size()-1);
-            long time = whiteTimesList.get(whiteTimesList.size()-1);
-
-            //gameStartTime+= (System.currentTimeMillis() - time);
-            whiteTime = ( System.currentTimeMillis() - time);
-            System.out.println("rxxyfxfxgfgfxgfxgx");
-        }
-    }
-
-    public void deleteBlackTime(){
-        if (blackTimesList.size()>1) {
-            blackTimesList.remove(blackTimesList.size()-1);
-            long time = blackTimesList.get(blackTimesList.size()-1);
-
-            //gameStartTime+= (System.currentTimeMillis() - time);
-            blackTime = ( System.currentTimeMillis() - time);
-            System.out.println("azertyuioiuytrezazerty");
         }
     }
 }

@@ -14,21 +14,25 @@ public class ChessBoard {
     private Piece[][] typeTable;
     private List<Piece[][]> listOfTable;
     private List<Object> listOfRemovedColor;
-    private IChess.ChessColor playerColor;
     private List<IChess.ChessPosition> listPawnMove;
     private IChess.ChessColor currentPlayerColor;
 
 
-
-    public List<IChess.ChessPosition> getListPawnMove() {
-        return listPawnMove;
-    }
 
     /**
      * This is the ChessBoard constructor
      */
     public ChessBoard(){
         reinitialise();
+    }
+
+
+    /**
+     * This method is used to get Pawn position list
+     * @return  List : Pawn ChessPosition list
+     */
+    public List<IChess.ChessPosition> getListPawnMove() {
+        return listPawnMove;
     }
 
 
@@ -48,8 +52,8 @@ public class ChessBoard {
      * This method is used to get a Piece type thanks to a given position
      * @param p ChessPosition : position of the piece we want
      * @return  ChessType : return the Piece's type
-     * @throws EmptyCellException
-     * @throws OutOfBoardException
+     * @throws EmptyCellException   throw when there is no piece at the ChessPosition
+     * @throws OutOfBoardException  throw when the given ChessPosition is out of the typeTable
      */
     public IChess.ChessType getPieceType(IChess.ChessPosition p) throws EmptyCellException, OutOfBoardException {
         if (p.x>=typeTable.length || p.y>=typeTable.length || p.x<0 || p.y<0){
@@ -70,8 +74,8 @@ public class ChessBoard {
      * This method is used to get a Piece color thanks to a given position
      * @param p ChessPosition : position of the piece we want
      * @return  ChessColor : return the Piece's color
-     * @throws EmptyCellException
-     * @throws OutOfBoardException
+     * @throws EmptyCellException   throw when there is no piece at the ChessPosition
+     * @throws OutOfBoardException  throw when the given ChessPosition is out of the typeTable
      */
     public IChess.ChessColor getPieceColor(IChess.ChessPosition p) throws EmptyCellException, OutOfBoardException {
         if (p.x>=typeTable.length || p.y>=typeTable.length || p.x<0 || p.y<0){
@@ -230,22 +234,12 @@ public class ChessBoard {
         List<IChess.ChessPosition> listFinal = new ArrayList<>();
         IChess.ChessPosition p1;
 
-        playerColor = typeTable[p.y][p.x].getColor();
         for (int i=0; i<list.size(); i++){
             try {
                 p1 = list.get(i);
                 if (moveTest(p, p1)){
                     listFinal.add(p1);
-
                 }
-                /*Piece save = typeTable[p1.y][p1.x];
-                typeTable[p1.y][p1.x] = typeTable[p.y][p.x];
-                typeTable[p.y][p.x] = null;
-                if (getKingState(typeTable[p1.y][p1.x].getColor())== IChess.ChessKingState.KING_SAFE){
-                    listFinal.add(p1);
-                }
-                typeTable[p.y][p.x] = typeTable[p1.y][p1.x];
-                typeTable[p1.y][p1.x] = save;*/
 
             }catch (Exception e){
 
@@ -254,16 +248,16 @@ public class ChessBoard {
         return listFinal;
     }
 
-    public boolean moveTest(IChess.ChessPosition p, IChess.ChessPosition p1){
-        Piece save = typeTable[p1.y][p1.x];
+    public boolean moveTest(IChess.ChessPosition oldP, IChess.ChessPosition newP){
+        Piece save = typeTable[newP.y][newP.x];
         boolean isMovePossible= false;
-        typeTable[p1.y][p1.x] = typeTable[p.y][p.x];
-        typeTable[p.y][p.x] = null;
-        if (getKingState(typeTable[p1.y][p1.x].getColor())== IChess.ChessKingState.KING_SAFE){
+        typeTable[newP.y][newP.x] = typeTable[oldP.y][oldP.x];
+        typeTable[oldP.y][oldP.x] = null;
+        if (getKingState(typeTable[newP.y][newP.x].getColor())== IChess.ChessKingState.KING_SAFE){
             isMovePossible= true;
         }
-        typeTable[p.y][p.x] = typeTable[p1.y][p1.x];
-        typeTable[p1.y][p1.x] = save;
+        typeTable[oldP.y][oldP.x] = typeTable[newP.y][newP.x];
+        typeTable[newP.y][newP.x] = save;
 
         return isMovePossible;
     }
@@ -327,7 +321,7 @@ public class ChessBoard {
     }
 
 
-    public void priseEnPassant(IChess.ChessPosition oldP, IChess.ChessPosition newP){
+    private void priseEnPassant(IChess.ChessPosition oldP, IChess.ChessPosition newP){
         if (getListPawnMove().size()>1 && typeTable[newP.y][newP.x].getType() == IChess.ChessType.TYP_PAWN) {
             if (getListPawnMove().get(getListPawnMove().size() - 1)!=null ) {
                 try {
@@ -411,7 +405,8 @@ public class ChessBoard {
             /*
             if (currentPlayerColor== IChess.ChessColor.CLR_WHITE){
                 Chronometer.getInstance().deleteWhiteTime();
-                System.out.println("fezokfozeinfozinfozeifnoziefnozienfoziefnozienfoziefn");            }
+                System.out.println("fezokfozeinfozinfozeifnoziefnozienfoziefnozienfoziefn");
+                }
             else {
                 Chronometer.getInstance().deleteBlackTime();
             }*/
@@ -426,11 +421,11 @@ public class ChessBoard {
 
 
     /**
-     * This method is used to write a new Piece[][], with all pieces
-     * needed to have a save at a t time of the Piece[][] (typeTable)
+     * This method is used to copy our typeTable Piece[][], with all pieces
+     * needed to have a save of the Piece[][] (typeTable) and not a copy of references
      * @return  Piece[][] : the table containing piece
      */
-    public Piece[][] writeTableSave(){
+    private Piece[][] writeTableSave(){
         Piece[][] table = new Piece[8][8];
         for (int i =0; i<8; i++){
             for (int j =0; j<8; j++){
@@ -449,7 +444,7 @@ public class ChessBoard {
     /**
      * This method is used to see typeTable element in the console, with a format close to a ChessBoard
      */
-    public void showTable(){
+    private void showTable(){
         String result = "####################################################\n";
         for (int i=0; i<8; i++){
             for (int j=0; j<8; j++){

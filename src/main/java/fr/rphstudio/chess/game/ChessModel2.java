@@ -7,14 +7,13 @@ import fr.rphstudio.chess.interf.OutOfBoardException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * This class is used as an interface between the GUI,  the Chessboard managing, and the chronometer
  */
 public class ChessModel2 implements IChess {
     private static ChessModel2 instance ;
-    private  Piece[][] typeTable;
     private ChessBoard board = new ChessBoard();
-
     private static IChess.ChessKingState WhiteKingStatus;
     private static IChess.ChessKingState BlackKingStatus;
 
@@ -22,13 +21,12 @@ public class ChessModel2 implements IChess {
 
     /**
      * This method is used as a design pattern singleton
-     * @return  Ichess : an unique instance of an IChess
+     * @return  IChess : an unique instance of an IChess
      */
     public static IChess getInstance() {
         if(ChessModel2.instance==null){
             ChessModel2.instance = new ChessModel2();
         }
-
         return ChessModel2.instance;
     }
 
@@ -45,15 +43,15 @@ public class ChessModel2 implements IChess {
         else{
             return BlackKingStatus;
         }
-
     }
+
 
     /**
      * This method is used to reinitialise the game, we reset the piece position and chronometer
      */
     @Override
     public void reinit() {
-        typeTable = board.reinitialise();
+        board.reinitialise();
         Chronometer.getInstance().reset();
     }
 
@@ -62,8 +60,8 @@ public class ChessModel2 implements IChess {
      * This method is used to get the piece's type at a defined position
      * @param p x/y position on the board where we want to get the piece type.
      * @return  ChessType : the ChessType of the piece
-     * @throws EmptyCellException
-     * @throws OutOfBoardException
+     * @throws EmptyCellException   throw when there is no piece at the ChessPosition
+     * @throws OutOfBoardException  throw when the given ChessPosition is out of the typeTable
      */
     @Override
     public ChessType getPieceType(ChessPosition p) throws EmptyCellException, OutOfBoardException {
@@ -75,8 +73,8 @@ public class ChessModel2 implements IChess {
      * This method is used to get the piece's color at a defined position
      * @param p x/y position on the board where we want to get the piece color.
      * @return  ChessColor : the color of the piece
-     * @throws EmptyCellException
-     * @throws OutOfBoardException
+     * @throws EmptyCellException   throw when there is no piece at the ChessPosition
+     * @throws OutOfBoardException  throw when the given ChessPosition is out of the typeTable
      */
     @Override
     public ChessColor getPieceColor(ChessPosition p) throws EmptyCellException, OutOfBoardException {
@@ -164,7 +162,7 @@ public class ChessModel2 implements IChess {
      * This method is used to get player duration, that will be display for each player
      * @param color The color of the player from whom we want to get the current duration.
      * @param isPlaying Indicates if the player color is the one currently playing.
-     * @return
+     * @return          long : a long value used to display the duration of the player
      */
     @Override
     public long getPlayerDuration(ChessColor color, boolean isPlaying) {

@@ -30,6 +30,7 @@ public class Rook implements IMove {
         return list;
     }
 
+
     /**
      * This method is used to add possible movement on a Row or a Column, the ints are used
      * to select the column or row we will add to the possible move
@@ -41,7 +42,6 @@ public class Rook implements IMove {
      */
     private void calculateLine(IChess.ChessPosition p, ChessBoard board, List<IChess.ChessPosition> list, int signX, int signY) {
         for (int i=1; i<8; i++) {
-
             int posX = p.x+i*signX;
             int posY = p.y+i*signY;
             try {
@@ -57,5 +57,4 @@ public class Rook implements IMove {
             }
         }
     }
-
 }

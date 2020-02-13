@@ -34,5 +34,6 @@ public class Knight implements IMove {
         list.add(new IChess.ChessPosition(p.x+2, p.y+1)) ;
         list.add(new IChess.ChessPosition(p.x-2, p.y+1)) ;
 
-        return list;    }
+        return list;
+    }
 }
