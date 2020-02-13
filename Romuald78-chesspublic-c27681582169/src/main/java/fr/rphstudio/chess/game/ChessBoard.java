@@ -3,7 +3,6 @@ package fr.rphstudio.chess.game;
 import fr.rphstudio.chess.interf.EmptyCellException;
 import fr.rphstudio.chess.interf.IChess;
 import fr.rphstudio.chess.interf.OutOfBoardException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,6 @@ public class ChessBoard {
         reinitialise();
     }
 
-
     /**
      * This method is used to get the piece at a given position with two int (y and x)
      * @param y     int : corresponding to the row we choose
@@ -36,7 +34,6 @@ public class ChessBoard {
         Piece piece = this.typeTable[y][x];
         return piece;
     }
-
 
     /**
      * This method is used to get a Piece type thanks to a given position
@@ -59,7 +56,6 @@ public class ChessBoard {
         }
     }
 
-
     /**
      * This method is used to get a Piece color thanks to a given position
      * @param p ChessPosition : position of the piece we want
@@ -80,7 +76,6 @@ public class ChessBoard {
             return piece.getColor();
         }
     }
-
 
     /**
      * This method is used to get the KingState, depending of all the enemies possible movements
@@ -126,7 +121,6 @@ public class ChessBoard {
             return BlackKingStatus;
         }
     }
-
 
     /**
      * This method is used to reinitialise the Game, the Piece table and list of dead pieces
@@ -178,23 +172,9 @@ public class ChessBoard {
      * @return      int : the number of remaining piece
      */
     public int numberOfRemaining(IChess.ChessColor color){
-        /*int remaining = 0;
-        for (int i = 0; i< typeTable.length; i++) {
-            for (int j = 0; j< typeTable.length; j++) {
-                Piece piece = typeTable[i][j];
-                if (piece != null) {
-                    if (piece.getColor() == color) {
-                        remaining++;
-                    }
-                }
-            }
-        }*/
-        //now we could calculate this int this way: initial pieces numbers - listSize corresponding to the color
-
         int remaining = 16 - RemovedPiece.getInstance().getRemovedPiecesNumber(color);
         return remaining;
     }
-
 
     /**
      * This method is used to get the piecesMoves depending of the position of the piece we want to find out
@@ -221,7 +201,6 @@ public class ChessBoard {
         return listFinal;
     }
 
-
     /**
      * This method is used to give the possible moves for a piece after checking if it will
      * threaten the king, then will limit the possible moves
@@ -241,14 +220,6 @@ public class ChessBoard {
                     listFinal.add(p1);
 
                 }
-                /*Piece save = typeTable[p1.y][p1.x];
-                typeTable[p1.y][p1.x] = typeTable[p.y][p.x];
-                typeTable[p.y][p.x] = null;
-                if (getKingState(typeTable[p1.y][p1.x].getColor())== IChess.ChessKingState.KING_SAFE){
-                    listFinal.add(p1);
-                }
-                typeTable[p.y][p.x] = typeTable[p1.y][p1.x];
-                typeTable[p1.y][p1.x] = save;*/
 
             }catch (Exception e){
 
@@ -270,7 +241,6 @@ public class ChessBoard {
 
         return isMovePossible;
     }
-
 
     /**
      * This method is used to do the movement choose by the player, depending of the position of
@@ -295,19 +265,16 @@ public class ChessBoard {
             listOfRemovedColor.add(typeTable[newP.y][newP.x].getColor());
         }
 
-
         typeTable[newP.y][newP.x] = typeTable[oldP.y][oldP.x];
         typeTable[oldP.y][oldP.x] = null;
         showTable();
 
         typeTable[newP.y][newP.x].setAlreadyMove(true);
 
-
         castling(oldP, newP, isMoved);
         promote(newP.y, newP.x);
 
     }
-
 
     /**
      * This method is used to promote the pawn into a queen if he have reach the other side of the chessBoard
@@ -322,7 +289,6 @@ public class ChessBoard {
             typeTable[y][x] =  new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_QUEEN, new Queen());
         }
     }
-
 
     /**
      * This method is used to do the castling movement, moving a Rook and the King
@@ -343,8 +309,6 @@ public class ChessBoard {
             }
         }
     }
-
-
 
 
     /**
@@ -371,7 +335,6 @@ public class ChessBoard {
         return false;
     }
 
-
     /**
      * This method is used to write a new Piece[][], with all pieces
      * needed to have a save at a t time of the Piece[][] (typeTable)
@@ -391,7 +354,6 @@ public class ChessBoard {
         }
         return table;
     }
-
 
     /**
      * This method is used to see typeTable element in the console, with a format close to a ChessBoard

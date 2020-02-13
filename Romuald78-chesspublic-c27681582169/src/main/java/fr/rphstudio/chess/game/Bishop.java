@@ -10,7 +10,6 @@ import java.util.List;
  */
 public class Bishop implements IMove {
 
-
     /**
      * This method is used to get the Piece's possible moves, depending of it's position
      * and the pieces in the board (needed for Pawn)
@@ -18,7 +17,6 @@ public class Bishop implements IMove {
      * @param board ChessBoard : the chess board, useful to know the piece environment
      * @return      List : ChessPosition's list
      */
-    @Override
     public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p, ChessBoard board) {
         List<IChess.ChessPosition> list = new ArrayList<>();
 
@@ -28,7 +26,6 @@ public class Bishop implements IMove {
         calculateDiagonal(p, board, list, +1, -1);
 
         return list;    }
-
 
     /**
      * This method is used to add possible movement on a Diagonal, the ints are used
