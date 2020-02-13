@@ -1,2 +1,15 @@
 *.iml
 /.idea
+.DS_Store
+
+*.xml
+
+target/archive-tmp/fileSetFormatter.1242276187.tmp/
+
+target/archive-tmp/fileSetFormatter.1393368615.tmp/
+
+target/archive-tmp/fileSetFormatter.1789319860.tmp/
+
+target/archive-tmp/fileSetFormatter.1812972952.tmp/
+
+target/

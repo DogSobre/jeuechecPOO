@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"fr.rphstudio.chess.game"},{"l":"fr.rphstudio.chess.interf"},{"l":"fr.rphstudio.chess.launcher"}]
