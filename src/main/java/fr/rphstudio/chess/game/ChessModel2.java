@@ -169,6 +169,7 @@ public class ChessModel2 implements IChess {
         Chronometer chronometer = Chronometer.getInstance();
         chronometer.updateChronometer(color, isPlaying);
 
+
         return chronometer.getPlayerDuration(color, isPlaying);
     }
 }

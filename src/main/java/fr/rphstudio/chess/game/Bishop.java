@@ -40,9 +40,9 @@ public class Bishop implements IMove {
      * @param signY     int : used for the row, could be -1, +1.     if 1, we go one row down
      */
     private void calculateDiagonal(IChess.ChessPosition p, ChessBoard board, List<IChess.ChessPosition> list, int signX, int signY) {
-        for (int i=1; i<8; i++){
-            int posX = p.x+i*signX;
-            int posY = p.y+i*signY;
+        for (int cell=1; cell<IChess.BOARD_WIDTH; cell++){
+            int posX = p.x+cell*signX;
+            int posY = p.y+cell*signY;
             try{
                 if (board.getPiece(posY, posX) == null){
                     list.add(new IChess.ChessPosition(posX, posY)) ;

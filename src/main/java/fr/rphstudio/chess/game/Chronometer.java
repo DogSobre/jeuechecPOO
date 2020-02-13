@@ -95,25 +95,32 @@ public class Chronometer {
             long time = currentTimesList.get(currentTimesList.size()-1);
             currentTimesList.remove(currentTimesList.size()-1);
 
-            gameStartTime+= (System.currentTimeMillis() - time);
-            if (color == IChess.ChessColor.CLR_WHITE){
-                //whiteTime = ( System.currentTimeMillis() - time -  (blackTime-time));
-                whiteTime = time -  gameStartTime - (blackTime );
+            long deltaTime = System.currentTimeMillis() - time;
 
-                //experimental
-                /*if (currentTimesList.size()-2>=2){
-                    blackTime-= (System.currentTimeMillis() - currentTimesList.get(currentTimesList.size()-2));
-                }*/
-                //blackTime-= System.currentTimeMillis() - currentTimesList.get(currentTimesList.size()-2);
+            gameStartTime+= deltaTime;
+            for (int i=0; i<currentTimesList.size()-1; i++){
+                currentTimesList.set(i, currentTimesList.get(i)+deltaTime);
             }
-            else {
-                //blackTime = (System.currentTimeMillis() - time  -(whiteTime));
-                blackTime = time  - gameStartTime - whiteTime;
+            if (currentTimesList.size()>0) {
+                long oldTime = time - currentTimesList.get(currentTimesList.size() - 1) + deltaTime;
+                System.out.println(oldTime);
+                //
+                if (color == IChess.ChessColor.CLR_WHITE) {
 
-                //experimental
-                /*if (currentTimesList.size()-2>=2){
-                    whiteTime-= (System.currentTimeMillis() - currentTimesList.get(currentTimesList.size()-2));
-                }*/
+                    blackTime -= /*time - gameStartTime - */oldTime;
+                    //whiteTime -= /*time - gameStartTime - */oldTime;
+
+                } else {
+
+                    whiteTime -= /*time - gameStartTime - */oldTime;
+                    //blackTime -= /*time - gameStartTime - */oldTime;
+
+                }
+            }
+
+            //ensure that when we back to the initial position we reset the chrono
+            if (currentTimesList.size()==0){
+                reset();
             }
         }
     }

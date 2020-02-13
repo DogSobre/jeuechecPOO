@@ -56,7 +56,7 @@ public class ChessBoard {
      * @throws OutOfBoardException  throw when the given ChessPosition is out of the typeTable
      */
     public IChess.ChessType getPieceType(IChess.ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        if (p.x>=typeTable.length || p.y>=typeTable.length || p.x<0 || p.y<0){
+        if (p.x>=IChess.BOARD_WIDTH|| p.y>=IChess.BOARD_HEIGHT|| p.x<0 || p.y<0){
             throw new OutOfBoardException();
         }
 
@@ -78,7 +78,7 @@ public class ChessBoard {
      * @throws OutOfBoardException  throw when the given ChessPosition is out of the typeTable
      */
     public IChess.ChessColor getPieceColor(IChess.ChessPosition p) throws EmptyCellException, OutOfBoardException {
-        if (p.x>=typeTable.length || p.y>=typeTable.length || p.x<0 || p.y<0){
+        if (p.x>=IChess.BOARD_WIDTH || p.y>=IChess.BOARD_HEIGHT || p.x<0 || p.y<0){
             throw new OutOfBoardException();
         }
 
@@ -100,16 +100,16 @@ public class ChessBoard {
     public IChess.ChessKingState getKingState(IChess.ChessColor color) {
         List<IChess.ChessPosition> finalList= new ArrayList<>();
         IChess.ChessPosition p = new IChess.ChessPosition(-1, -1);
-        for (int i = 0; i<8; i++){
-            for (int j = 0; j<8; j++){
+        for (int row = 0; row<IChess.BOARD_HEIGHT; row++){
+            for (int column = 0; column<IChess.BOARD_WIDTH; column++){
                 try {
-                    if (getPiece(i, j).getColor() != color) {
-                        List<IChess.ChessPosition> list = getPieceMoves(new IChess.ChessPosition(j, i));
+                    if (getPiece(row, column).getColor() != color) {
+                        List<IChess.ChessPosition> list = getPieceMoves(new IChess.ChessPosition(column, row));
                         finalList.addAll(list);
                     }
 
-                    if (getPiece(i, j).getColor() == color && getPiece(i, j).getType() == IChess.ChessType.TYP_KING) {
-                        p = new IChess.ChessPosition(j, i);
+                    if (getPiece(row, column).getColor() == color && getPiece(row, column).getType() == IChess.ChessType.TYP_KING) {
+                        p = new IChess.ChessPosition(column, row);
                     }
                 }catch (Exception e ){
                 }
@@ -133,39 +133,40 @@ public class ChessBoard {
      * @return  Piece[][] : the table piece we have generated
      */
     public Piece[][] reinitialise(){
-        typeTable = new Piece[8][8];
+        typeTable = new Piece[IChess.BOARD_HEIGHT][IChess.BOARD_WIDTH];
         RemovedPiece.getInstance().reinitialiseList();
         listOfTable = new ArrayList<>();
         listOfRemovedColor = new ArrayList<>();
         listPawnMove = new ArrayList<>();
 
         // pawn set-up
-        for (int col=0; col<typeTable.length; col++){
-            typeTable[1][col] = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_PAWN, new Pawn());
-            typeTable[6][col] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_PAWN, new Pawn());
+        for (int col=0; col<IChess.BOARD_WIDTH; col++){
+            typeTable[IChess.BOARD_POS_Y_BLACK_PAWNS][col] = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_PAWN, new Pawn());
+            typeTable[IChess.BOARD_POS_Y_WHITE_PAWNS][col] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_PAWN, new Pawn());
         }
 
 
-        for (int col=0; col<typeTable.length; col++){
-            if (col==0 || col==7) {
-                typeTable[0][col] = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_ROOK, new Rook());
-                typeTable[7][col] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_ROOK, new Rook());
+
+        for (int col=0; col<IChess.BOARD_WIDTH; col++){
+            if (col==IChess.BOARD_POS_X_QUEENSIDE_ROOK || col==IChess.BOARD_POS_X_KINGSIDE_ROOK) {
+                typeTable[IChess.BOARD_POS_Y_BLACK_PIECES][col] = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_ROOK, new Rook());
+                typeTable[IChess.BOARD_POS_Y_WHITE_PIECES][col] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_ROOK, new Rook());
             }
-            else if (col==1 || col==6) {
-                typeTable[0][col] = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_KNIGHT, new Knight());
-                typeTable[7][col] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_KNIGHT, new Knight());
+            else if (col== IChess.BOARD_POS_X_KINGSIDE_KNIGHT || col==IChess.BOARD_POS_X_QUEENSIDE_KNIGHT) {
+                typeTable[IChess.BOARD_POS_Y_BLACK_PIECES][col] = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_KNIGHT, new Knight());
+                typeTable[IChess.BOARD_POS_Y_WHITE_PIECES][col] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_KNIGHT, new Knight());
             }
-            else if (col==2 || col==5) {
-                typeTable[0][col] = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_BISHOP, new Bishop());
-                typeTable[7][col] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_BISHOP, new Bishop());
+            else if (col==IChess.BOARD_POS_X_KINGSIDE_BISHOP || col==IChess.BOARD_POS_X_QUEENSIDE_BISHOP) {
+                typeTable[IChess.BOARD_POS_Y_BLACK_PIECES][col] = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_BISHOP, new Bishop());
+                typeTable[IChess.BOARD_POS_Y_WHITE_PIECES][col] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_BISHOP, new Bishop());
             }
-            else if (col==3) {
-                typeTable[0][col] = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_QUEEN, new Queen());
-                typeTable[7][col] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_QUEEN, new Queen());
+            else if (col==IChess.BOARD_POS_X_QUEEN) {
+                typeTable[IChess.BOARD_POS_Y_BLACK_PIECES][col] = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_QUEEN, new Queen());
+                typeTable[IChess.BOARD_POS_Y_WHITE_PIECES][col] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_QUEEN, new Queen());
             }
             else {
-                typeTable[0][col] = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_KING, new King());
-                typeTable[7][col] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_KING, new King());
+                typeTable[IChess.BOARD_POS_Y_BLACK_PIECES][col] = new Piece(IChess.ChessColor.CLR_BLACK, IChess.ChessType.TYP_KING, new King());
+                typeTable[IChess.BOARD_POS_Y_WHITE_PIECES][col] = new Piece(IChess.ChessColor.CLR_WHITE, IChess.ChessType.TYP_KING, new King());
             }
         }
 
@@ -208,7 +209,7 @@ public class ChessBoard {
 
         // the pattern move of pieces have to include all ways they could go, and here we limit them
         for (int i=0; i<list.size(); i++) {
-            if (list.get(i).y >= 0 && list.get(i).y < 8 && list.get(i).x >= 0 && list.get(i).x < 8) {
+            if (list.get(i).y >= 0 && list.get(i).y < IChess.BOARD_HEIGHT && list.get(i).x >= 0 && list.get(i).x < IChess.BOARD_WIDTH) {
 
                 //limit when is the same color than the piece selected
                 if (typeTable[list.get(i).y][list.get(i).x]==null){
@@ -233,6 +234,8 @@ public class ChessBoard {
         List<IChess.ChessPosition> list = getPieceMoves(p);
         List<IChess.ChessPosition> listFinal = new ArrayList<>();
         IChess.ChessPosition p1;
+        currentPlayerColor = typeTable[p.y][p.x].getColor();
+
 
         for (int i=0; i<list.size(); i++){
             try {
@@ -272,7 +275,6 @@ public class ChessBoard {
     public void movePiece(IChess.ChessPosition oldP, IChess.ChessPosition newP){
         listOfTable.add(writeTableSave());
         boolean isMoved = typeTable[oldP.y][oldP.x].isAlreadyMove();
-        currentPlayerColor = typeTable[oldP.y][oldP.x].getColor();
 
 
         if (typeTable[newP.y][newP.x] == null){
@@ -289,23 +291,12 @@ public class ChessBoard {
         }
 
 
-        /*
-        if (currentPlayerColor== IChess.ChessColor.CLR_WHITE){
-            Chronometer.getInstance().addWhiteTime();
-        }
-        else {
-            Chronometer.getInstance().addBlackTime();
-        }*/
-
         Chronometer.getInstance().addCurrentTime();
         typeTable[newP.y][newP.x] = typeTable[oldP.y][oldP.x];
         typeTable[oldP.y][oldP.x] = null;
         showTable();
 
-
-
         typeTable[newP.y][newP.x].setAlreadyMove(true);
-
 
         priseEnPassant(oldP, newP);
         if (typeTable[newP.y][newP.x].getType() == IChess.ChessType.TYP_PAWN && Math.abs(newP.y-oldP.y)==2){
@@ -426,15 +417,15 @@ public class ChessBoard {
      * @return  Piece[][] : the table containing piece
      */
     private Piece[][] writeTableSave(){
-        Piece[][] table = new Piece[8][8];
-        for (int i =0; i<8; i++){
-            for (int j =0; j<8; j++){
-                Piece myPiece = typeTable[i][j];
-                if (typeTable[i][j]!=null){
+        Piece[][] table = new Piece[IChess.BOARD_HEIGHT][IChess.BOARD_WIDTH];
+        for (int row =0; row<IChess.BOARD_HEIGHT; row++){
+            for (int column =0; column<IChess.BOARD_WIDTH; column++){
+                Piece myPiece = typeTable[row][column];
+                if (typeTable[row][column]!=null){
                     myPiece = new Piece(myPiece.getColor(), myPiece.getType(), myPiece.getMove());
-                    myPiece.setAlreadyMove(typeTable[i][j].isAlreadyMove());
+                    myPiece.setAlreadyMove(typeTable[row][column].isAlreadyMove());
                 }
-                table[i][j] = myPiece;
+                table[row][column] = myPiece;
             }
         }
         return table;
@@ -446,10 +437,10 @@ public class ChessBoard {
      */
     private void showTable(){
         String result = "####################################################\n";
-        for (int i=0; i<8; i++){
-            for (int j=0; j<8; j++){
-                if (typeTable[i][j]!=null){
-                    result+=typeTable[i][j].getType() + "/" + typeTable[i][j].getColor() + " . ";
+        for (int row=0; row<8; row++){
+            for (int column=0; column<8; column++){
+                if (typeTable[row][column]!=null){
+                    result+=typeTable[row][column].getType() + "/" + typeTable[row][column].getColor() + " . ";
                 }
                 else {
                     result+= "--------/--------- . ";
