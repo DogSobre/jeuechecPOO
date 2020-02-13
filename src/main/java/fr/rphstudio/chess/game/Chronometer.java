@@ -62,6 +62,28 @@ public class Chronometer {
     }
 
 
+
+    public long getPlayerDuration(IChess.ChessColor color, boolean isPlaying) {
+        Chronometer chronometer = Chronometer.getInstance();
+        chronometer.updateChronometer(color, isPlaying);
+
+        if (color == IChess.ChessColor.CLR_WHITE && isPlaying){
+            System.out.println(color);
+            return whiteTime;
+        }
+        else if (color == IChess.ChessColor.CLR_BLACK && isPlaying){
+            System.out.println(color);
+            return blackTime;
+        }
+        else if (color == IChess.ChessColor.CLR_WHITE && !isPlaying){
+            return whiteTime;
+        }
+        else {
+            return blackTime;
+        }
+    }
+
+
     /**
      * This method is used to return the game duration of the white player
      * @return  long : white player's duration
@@ -103,7 +125,7 @@ public class Chronometer {
 
             currentTimesList.remove(currentTimesList.size()-1);
 
-            //gameStartTime+= (System.currentTimeMillis() - time);
+            gameStartTime+= (System.currentTimeMillis() - time);
             if (color == IChess.ChessColor.CLR_WHITE){
                 whiteTime -= ( System.currentTimeMillis() - time);
             }

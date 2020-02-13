@@ -171,15 +171,6 @@ public class ChessModel2 implements IChess {
         Chronometer chronometer = Chronometer.getInstance();
         chronometer.updateChronometer(color, isPlaying);
 
-        if (color == IChess.ChessColor.CLR_WHITE && isPlaying){
-            System.out.println(color);
-            return chronometer.whiteTime();
-        }else if (color == ChessColor.CLR_BLACK && isPlaying){
-            System.out.println(color);
-            return chronometer.blackTime();
-        }
-        else {
-            return 0;
-        }
+        return chronometer.getPlayerDuration(color, isPlaying);
     }
 }
