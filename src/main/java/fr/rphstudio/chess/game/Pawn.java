@@ -34,17 +34,37 @@ public class Pawn implements IMove {
 
         if (piece.getColor()== IChess.ChessColor.CLR_WHITE){
             calculateComonMove(p, board, list, piece, p.y-1);
+            calculatePriseEnPassant(p, board, list, piece, p.y-1, 3);
         }
         else {
             calculateComonMove(p, board, list, piece, p.y+1);
-
+            calculatePriseEnPassant(p, board, list, piece, p.y+1, 4);
         }
+
+
 
 
 
         return list;
     }
 
+
+    private void calculatePriseEnPassant(IChess.ChessPosition p, ChessBoard board, List<IChess.ChessPosition> list, Piece piece, int rowMove, int rowNeed){
+        if (board.getListPawnMove().size()>0) {
+            if (board.getListPawnMove().get(board.getListPawnMove().size() - 1)!=null ) {
+                try {
+                    int y = board.getListPawnMove().get(board.getListPawnMove().size()-1).y;
+                    int x = board.getListPawnMove().get(board.getListPawnMove().size()-1).x;
+
+                    if (piece.getColor() != board.getPiece(y, x).getColor() && rowNeed==p.y) {
+                        list.add(new IChess.ChessPosition(x, rowMove));
+                    }
+
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
 
 
     private void calculateFirst(IChess.ChessPosition p, ChessBoard board, List<IChess.ChessPosition> list, int signeY){
@@ -77,7 +97,6 @@ public class Pawn implements IMove {
             }
         }catch (Exception e){
         }
-
     }
 
 }

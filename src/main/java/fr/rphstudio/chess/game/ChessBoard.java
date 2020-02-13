@@ -14,9 +14,14 @@ public class ChessBoard {
     private Piece[][] typeTable;
     private List<Piece[][]> listOfTable;
     private List<Object> listOfRemovedColor;
-    private IChess.ChessKingState WhiteKingStatus;
-    private IChess.ChessKingState BlackKingStatus;
     private IChess.ChessColor playerColor;
+    private List<IChess.ChessPosition> listPawnMove;
+
+
+
+    public List<IChess.ChessPosition> getListPawnMove() {
+        return listPawnMove;
+    }
 
     /**
      * This is the ChessBoard constructor
@@ -118,16 +123,6 @@ public class ChessBoard {
     }
 
 
-    public IChess.ChessKingState getKingStatus(IChess.ChessColor color){
-        if (color == IChess.ChessColor.CLR_WHITE){
-            return WhiteKingStatus;
-        }
-        else {
-            return BlackKingStatus;
-        }
-    }
-
-
     /**
      * This method is used to reinitialise the Game, the Piece table and list of dead pieces
      * @return  Piece[][] : the table piece we have generated
@@ -137,6 +132,7 @@ public class ChessBoard {
         RemovedPiece.getInstance().reinitialiseList();
         listOfTable = new ArrayList<>();
         listOfRemovedColor = new ArrayList<>();
+        listPawnMove = new ArrayList<>();
 
         // pawn set-up
         for (int col=0; col<typeTable.length; col++){
@@ -282,10 +278,11 @@ public class ChessBoard {
         listOfTable.add(writeTableSave());
         boolean isMoved = typeTable[oldP.y][oldP.x].isAlreadyMove();
 
+
         if (typeTable[newP.y][newP.x] == null){
             listOfRemovedColor.add(typeTable[newP.y][newP.x]);
-
-        }else {
+        }
+        else {
             if (typeTable[newP.y][newP.x].getColor()== IChess.ChessColor.CLR_WHITE){
                 RemovedPiece.getInstance().addWhite(typeTable[newP.y][newP.x].getType());
             }
@@ -300,12 +297,46 @@ public class ChessBoard {
         typeTable[oldP.y][oldP.x] = null;
         showTable();
 
+
+
         typeTable[newP.y][newP.x].setAlreadyMove(true);
 
 
+        priseEnPassant(oldP, newP);
+        if (typeTable[newP.y][newP.x].getType() == IChess.ChessType.TYP_PAWN && Math.abs(newP.y-oldP.y)==2){
+            listPawnMove.add(newP);
+        }
+        else {
+            listPawnMove.add(null);
+        }
         castling(oldP, newP, isMoved);
         promote(newP.y, newP.x);
 
+
+    }
+
+
+    public void priseEnPassant(IChess.ChessPosition oldP, IChess.ChessPosition newP){
+        if (getListPawnMove().size()>1 && typeTable[newP.y][newP.x].getType() == IChess.ChessType.TYP_PAWN) {
+            if (getListPawnMove().get(getListPawnMove().size() - 1)!=null ) {
+                try {
+                    if (typeTable[newP.y][newP.x].getColor()== IChess.ChessColor.CLR_BLACK){
+                        if ( 4==oldP.y) {
+                            System.out.println(" action noir");
+                            typeTable[newP.y-1][newP.x]=null;
+                        }
+                    }
+                    else
+                    {
+                        if ( 3==oldP.y) {
+                            System.out.println(" action blanc");
+                            typeTable[newP.y+1][newP.x]=null;
+                        }
+                    }
+                } catch (Exception e) {
+                }
+            }
+        }
     }
 
 
@@ -366,6 +397,7 @@ public class ChessBoard {
             }
             listOfRemovedColor.remove(listOfRemovedColor.size()-1);
 
+            listPawnMove.remove(listPawnMove.size()-1);
             return true;
         }
         return false;

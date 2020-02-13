@@ -20,7 +20,6 @@ public class ChessModel2 implements IChess {
 
 
 
-
     /**
      * This method is used as a design singleton
      * @return
