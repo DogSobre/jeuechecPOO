@@ -3,7 +3,6 @@ package fr.rphstudio.chess.game;
 import fr.rphstudio.chess.interf.EmptyCellException;
 import fr.rphstudio.chess.interf.IChess;
 import fr.rphstudio.chess.interf.OutOfBoardException;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -126,6 +125,7 @@ public class ChessModel2 implements IChess {
     }
 
     public long getPlayerDuration(ChessColor color, boolean isPlaying) {
+
         return 0;
     }
 }

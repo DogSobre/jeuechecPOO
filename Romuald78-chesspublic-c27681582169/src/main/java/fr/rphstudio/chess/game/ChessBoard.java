@@ -354,7 +354,6 @@ public class ChessBoard {
         }
         return table;
     }
-
     /**
      * This method is used to see typeTable element in the console, with a format close to a ChessBoard
      */
