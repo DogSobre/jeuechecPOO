@@ -111,6 +111,7 @@ public class Chronometer {
             blackTime = blackTimeList.get(blackTimeList.size() - 1);
             whiteTime = whiteTimeList.get(whiteTimeList.size() - 1);
 
+
             whiteTimeList.remove(whiteTimeList.size()-1);
             blackTimeList.remove(blackTimeList.size()-1);
 
@@ -118,6 +119,12 @@ public class Chronometer {
             if (currentTimesList.size()==0){
                 reset();
             }
+        }
+        if (blackTime<0){
+            blackTime=0;
+        }
+        if (whiteTime<0){
+            whiteTime=0;
         }
     }
 }

@@ -9,7 +9,7 @@ import fr.rphstudio.chess.interf.IChess;
 public class Piece {
     private IChess.ChessColor color ;
     private IChess.ChessType type;
-    private IMove move;
+    private IMove movePattern;
     private boolean alreadyMove = false;
 
 
@@ -17,12 +17,12 @@ public class Piece {
      * Piece constructor, used to create a piece that we will had to the chessboard
      * @param color ChessColor : piece's color
      * @param type  ChessTyp : piece's type
-     * @param move  IMove : piece's pattern movement, defined how it will move on the chessboard
+     * @param movePattern  IMove : piece's pattern movement, defined how it will move on the chessboard
      */
-    public Piece(IChess.ChessColor color, IChess.ChessType type, IMove move){
+    public Piece(IChess.ChessColor color, IChess.ChessType type, IMove movePattern){
         this.color=color;
         this.type = type;
-        this.move = move;
+        this.movePattern = movePattern;
     }
 
 
@@ -48,8 +48,8 @@ public class Piece {
      * This method is used to get the piece move pattern
      * @return  ChessColor : piece's pattern
      */
-    public IMove getMove() {
-        return move;
+    public IMove getMovePattern() {
+        return movePattern;
     }
 
 

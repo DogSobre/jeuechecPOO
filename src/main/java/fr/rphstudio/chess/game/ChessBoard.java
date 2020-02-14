@@ -204,7 +204,7 @@ public class ChessBoard {
      * @return  List : possible move's list
      */
     public List<IChess.ChessPosition> getPieceMoves(IChess.ChessPosition p) {
-        List<IChess.ChessPosition> list = typeTable[p.y][p.x].getMove().getPieceMoves(p, this);
+        List<IChess.ChessPosition> list = typeTable[p.y][p.x].getMovePattern().getPieceMoves(p, this);
         List<IChess.ChessPosition> listFinal = new ArrayList<>();
 
         // the pattern move of pieces have to include all ways they could go without limits, and here we limit them
@@ -413,7 +413,7 @@ public class ChessBoard {
             for (int column =0; column<IChess.BOARD_WIDTH; column++){
                 Piece myPiece = typeTable[row][column];
                 if (typeTable[row][column]!=null){
-                    myPiece = new Piece(myPiece.getColor(), myPiece.getType(), myPiece.getMove());
+                    myPiece = new Piece(myPiece.getColor(), myPiece.getType(), myPiece.getMovePattern());
                     myPiece.setAlreadyMove(typeTable[row][column].isAlreadyMove());
                 }
                 table[row][column] = myPiece;
