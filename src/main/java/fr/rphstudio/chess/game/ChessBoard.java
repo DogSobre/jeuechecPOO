@@ -234,6 +234,7 @@ public class ChessBoard {
         IChess.ChessPosition p1;
 
 
+        // allow a move if the king stay safe for a defined move
         for (int i=0; i<list.size(); i++){
             try {
                 p1 = list.get(i);
