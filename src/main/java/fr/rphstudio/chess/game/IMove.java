@@ -3,6 +3,7 @@ package fr.rphstudio.chess.game;
 import fr.rphstudio.chess.interf.IChess;
 import java.util.List;
 
+
 /**
  * This interface is used to create different movement pattern , using the design pattern Strategy
  */

@@ -14,8 +14,8 @@ import java.util.List;
 public class ChessModel2 implements IChess {
     private static ChessModel2 instance ;
     private ChessBoard board = new ChessBoard();
-    private static IChess.ChessKingState WhiteKingStatus;
-    private static IChess.ChessKingState BlackKingStatus;
+    private static IChess.ChessKingState whiteKingStatus;
+    private static IChess.ChessKingState blackKingStatus;
 
 
 
@@ -38,10 +38,10 @@ public class ChessModel2 implements IChess {
      */
     public static ChessKingState getKingStatus(ChessColor color) {
         if (color==ChessColor.CLR_WHITE) {
-            return WhiteKingStatus;
+            return whiteKingStatus;
         }
         else{
-            return BlackKingStatus;
+            return blackKingStatus;
         }
     }
 
@@ -89,7 +89,7 @@ public class ChessModel2 implements IChess {
      */
     @Override
     public int getNbRemainingPieces(ChessColor color) {
-        return board.numberOfRemaining(color);
+        return board.getNumberOfRemaining(color);
     }
 
 
@@ -127,10 +127,10 @@ public class ChessModel2 implements IChess {
     @Override
     public ChessKingState getKingState(ChessColor color) {
         if (color== IChess.ChessColor.CLR_WHITE){
-            WhiteKingStatus= board.getKingState(color);
+            whiteKingStatus = board.getKingState(color);
         }
         if (color== IChess.ChessColor.CLR_BLACK){
-            BlackKingStatus= board.getKingState(color);
+            blackKingStatus = board.getKingState(color);
         }
         return board.getKingState(color);
     }
@@ -168,8 +168,6 @@ public class ChessModel2 implements IChess {
     public long getPlayerDuration(ChessColor color, boolean isPlaying) {
         Chronometer chronometer = Chronometer.getInstance();
         chronometer.updateChronometer(color, isPlaying);
-
-
         return chronometer.getPlayerDuration(color, isPlaying);
     }
 }

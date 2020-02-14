@@ -6,11 +6,11 @@ import java.util.List;
 
 
 /**
- * this class is used to have the information about removed pieces from each player
+ * This class is used to have the information about removed pieces from each player
  */
 public class RemovedPiece {
     private static RemovedPiece instance ;
-    private List<IChess.ChessType> listTypeBlack= new ArrayList<>();
+    private List<IChess.ChessType> listTypeBlack = new ArrayList<>();
     private List<IChess.ChessType> listTypeWhite = new ArrayList<>();
 
 
@@ -68,35 +68,31 @@ public class RemovedPiece {
 
 
     /**
-     * This method is used to add a black piece's Type to the corresponding list
+     * This method is used to add a piece's Type to the corresponding list
+     * @param color ChessColor : piece's color
      * @param type  ChessTyp : piece's type
      */
-    public void addBlack(IChess.ChessType type){
-        listTypeBlack.add(type);
+    public void addToRemovedTypeList(IChess.ChessColor color, IChess.ChessType type){
+        if (color== IChess.ChessColor.CLR_WHITE){
+            listTypeWhite.add(type);
+        }
+        else if (color== IChess.ChessColor.CLR_BLACK){
+            listTypeBlack.add(type);
+        }
     }
 
 
     /**
-     * This method is used to add a white piece's Type to the corresponding list
-     * @param type  ChessTyp : piece's type
+     * This method is used to removed the last piece's Type of the corresponding list
+     * @param color ChessColor : color of the piece we will removed from the list
      */
-    public void addWhite(IChess.ChessType type){
-        listTypeWhite.add(type);
+    public void removedFromTypeList(IChess.ChessColor color){
+        if (color== IChess.ChessColor.CLR_WHITE){
+            listTypeWhite.remove(listTypeWhite.size()-1);
+        }
+        else if (color== IChess.ChessColor.CLR_BLACK){
+            listTypeBlack.remove(listTypeBlack.size()-1);
+        }
     }
 
-
-    /**
-     * This method is used to removed the last black piece's Type of the corresponding list
-     */
-    public void removedBlack(){
-        listTypeBlack.remove(listTypeBlack.size()-1);
-    }
-
-
-    /**
-     * This method is used to removed the last black piece's Type of the corresponding list
-     */
-    public void removedWhite(){
-        listTypeWhite.remove(listTypeWhite.size()-1);
-    }
 }

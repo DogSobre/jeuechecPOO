@@ -10,11 +10,13 @@ import java.util.List;
  * This class is used to manage a chronometer and get the game duration for each player
  */
 public class Chronometer {
-    private long whiteTime=0;
-    private long blackTime=0;
+    private long whiteTime;
+    private long blackTime;
     private static Chronometer instance;
-    private long gameStartTime=System.currentTimeMillis();
+    private long gameStartTime;
     private  List<Long> currentTimesList;
+    private List<Long> whiteTimeList;
+    private List<Long> blackTimeList;
 
 
     /**
@@ -53,6 +55,8 @@ public class Chronometer {
         blackTime = 0;
         gameStartTime=System.currentTimeMillis();
         currentTimesList = new ArrayList<>();
+        whiteTimeList = new ArrayList<>();
+        blackTimeList = new ArrayList<>();
     }
 
 
@@ -82,15 +86,17 @@ public class Chronometer {
      */
     public void addCurrentTime(){
         currentTimesList.add(System.currentTimeMillis());
+        whiteTimeList.add(whiteTime);
+        blackTimeList.add(blackTime);
     }
 
 
     /**
      * This method is used to delete the last saved time from the list of currentTimesList
      * and set the time of each player when an undo action is performed
-     * @param color ChessColor : player's color
      */
-    public void deleteCurrentTime(IChess.ChessColor color){
+    public void deleteCurrentTime(){
+
         if (currentTimesList.size()>0){
             long time = currentTimesList.get(currentTimesList.size()-1);
             currentTimesList.remove(currentTimesList.size()-1);
@@ -99,26 +105,16 @@ public class Chronometer {
 
             gameStartTime+= deltaTime;
             for (int i=0; i<currentTimesList.size()-1; i++){
-                currentTimesList.set(i, currentTimesList.get(i)+deltaTime);
-            }
-            if (currentTimesList.size()>0) {
-                long oldTime = time - currentTimesList.get(currentTimesList.size() - 1) + deltaTime;
-                System.out.println(oldTime);
-                //
-                if (color == IChess.ChessColor.CLR_WHITE) {
-
-                    blackTime -= /*time - gameStartTime - */oldTime;
-                    //whiteTime -= /*time - gameStartTime - */oldTime;
-
-                } else {
-
-                    whiteTime -= /*time - gameStartTime - */oldTime;
-                    //blackTime -= /*time - gameStartTime - */oldTime;
-
-                }
+                currentTimesList.set(i, currentTimesList.get(i)+System.currentTimeMillis()-time);
             }
 
-            //ensure that when we back to the initial position we reset the chrono
+            blackTime = blackTimeList.get(blackTimeList.size() - 1);
+            whiteTime = whiteTimeList.get(whiteTimeList.size() - 1);
+
+            whiteTimeList.remove(whiteTimeList.size()-1);
+            blackTimeList.remove(blackTimeList.size()-1);
+
+            // ensure that when we back to the initial position we reset the chronometer
             if (currentTimesList.size()==0){
                 reset();
             }
