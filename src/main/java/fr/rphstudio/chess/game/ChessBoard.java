@@ -241,7 +241,6 @@ public class ChessBoard {
                 if (moveTest(p, p1)){
                     listFinal.add(p1);
                 }
-
             }catch (Exception e){
 
             }
